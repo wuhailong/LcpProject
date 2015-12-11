@@ -1,0 +1,64 @@
+8
+
+dir
+807
+https://zwb-pc/svn/jhdcp2/LcpProject
+https://zwb-pc/svn/jhdcp2
+
+
+
+2015-04-17T03:15:34.999939Z
+807
+zhouweibin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+a02d5324-4e91-cd49-86ca-bfc7c5ded3af
+
+build
+dir
+
+.classpath
+file
+
+
+
+
+2015-04-01T02:01:50.624193Z
+4b75b8e9dbfa4cea7c0b5e6102014bf0
+2015-04-17T03:14:46.827051Z
+806
+zhouweibin
+
+.project
+file
+
+
+
+
+2012-12-06T03:29:26.312500Z
+aa104b9e372f5c0c9a24cab324c6548e
+2012-06-20T08:54:51.937500Z
+4
+zhangkun
+
+src
+dir
+
+WebContent
+dir
+
+.settings
+dir
+
