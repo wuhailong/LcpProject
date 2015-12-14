@@ -7,13 +7,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
 </head>
-<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
-<script type="text/javascript" src="js/vacp.js"></script>
-<script type="text/javascript" src="js/jscharts.js"></script>
-<script type="text/javascript" src="js/jscharts.plug.mb.js"></script>
-<link href="css/va.css" rel="stylesheet" type="text/css" />
-<link href="css/layout.css" rel="stylesheet" type="text/css" />
-<link href="css/table_css1.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/va.css"/>
+<link rel="stylesheet" type="text/css" href="css/layout.css" />
+
+<link rel="stylesheet" href="css/screen.css" media="screen" />
+<link rel="stylesheet" href="css/jquery.treetable.css" />
+<link rel="stylesheet" href="css/jquery.treetable.theme.default.css" />
 <body>
 	<div id="container">
 		<div id="sidebar">		
@@ -31,27 +30,31 @@
 			</table>
 		</div>
 		<div id="rightbar">
-			<div id="graphTitle"></div>
-			<div id="graph"></div>
-			<div id="ordertable"></div>
-			<table cellspacing="0" cellpadding="0" border="0"
-				aria-labelledby="gbox_gridTable" role="grid" style="width: 100%"
-				class="ui-jqgrid-htable">
-				<thead>
-					<tr class="ui-jqgrid-labels" role="rowheader">
-						<th class="ui-state-default ui-th-column ui-th-ltr" role="columnheader" style="width: 5%;"></th>
-						<th class="ui-state-default ui-th-column ui-th-ltr" role="columnheader" style="width: 9.5%;">医嘱名称</th>
-						<th class="ui-state-default ui-th-column ui-th-ltr" role="columnheader" style="width: 14.5%;">医嘱编号</th>
-						<th class="ui-state-default ui-th-column ui-th-ltr" role="columnheader" style="width: 4.5%;">执行频次</th>
-					</tr>
-				</thead>
-				<tbody id='orderseqs'>
-
-				</tbody>
-			</table>
+		<div id="mybtn">
+			<input type="button" class='checkOrder' value="查看医嘱执行率" />
+			<input type="button" class='checkNode' value="查看路径节点变异" />			
+		</div>	
+		<div id ="mygraph"></div>
+		<dir id ="myorders">
+		<table class="bordered" id="example-advanced">       
+        <thead>
+          <tr>
+            <th width="60%">Name</th>
+            <th width="20%">Kind</th>
+            <th width="20%">Size</th>
+          </tr>
+        </thead>
+        <tbody id='orderseqs'>        
+  </tbody>
+      </table>
+		</dir>			
 		</div>
-
 	</div>
 </body>
-</body>
+<script type="text/javascript" src="js/vacp.js"></script>
+<script type="text/javascript" src="js/jscharts.js"></script>
+<script type="text/javascript" src="js/jscharts.plug.mb.js"></script>
+<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery.treetable.js"></script>
 </html>

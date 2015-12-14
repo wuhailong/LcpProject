@@ -1,37 +1,32 @@
 /**
  * 医嘱执行频次对比脚本
  */
-$("#example-advanced").treetable({ expandable: true });
- 
-// Highlight selected row
-$("#example-advanced tbody tr").mousedown(function() {
-  $("tr.selected").removeClass("selected");
-  $(this).addClass("selected");
-});
- 
-// Drag & Drop Example Code
-$("#example-advanced .file, #example-advanced .folder").draggable({
-  helper: "clone",
-  opacity: .75,
-  refreshPositions: true,
-  revert: "invalid",
-  revertDuration: 300,
-  scroll: true
-});
- 
-$("#example-advanced .folder").each(function() {
-  $(this).parents("tr").droppable({
-    accept: ".file, .folder",
-    drop: function(e, ui) {
-      var droppedEl = ui.draggable.parents("tr");
-      $("#example-advanced").treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
-    },
-    hoverClass: "accept",
-    over: function(e, ui) {
-      var droppedEl = ui.draggable.parents("tr");
-      if(this != droppedEl[0] && !$(this).is(".expanded")) {
-        $("#example-advanced").treetable("expandNode", $(this).data("ttId"));
-      }
-    }
-  });
-});
+window.onload = function()
+{	
+	$.ajax({
+		url : '../PdcaServlet?ran='+Math.random(),
+		data : {
+			op :"5"
+		},
+		dataType : 'json',
+		error : function() {
+
+		},
+		success : function(data) {						
+			var nodeflag = '-';
+    		var parientid = 0;
+    		for(var i=0;i<data["cp_orders"].length;i++)
+   		    {	
+    			var tr="";
+    			if(nodeflag!=data["cp_orders"][i]["node_name"]){ 
+    				parientid++;
+    				tr ="<tr data-tt-id='"+parientid+"'><td>"+data["cp_orders"][i]["order_text"]+"</td><td>--</td><td>--</td></tr>";
+    				$('#orderseqs').append(tr);             				
+    			}
+    			tr ="<tr data-tt-id='"+parientid+'-'+i+"' data-tt-parent-id='"+parientid+"'><td>"+data["cp_orders"][i]["order_text"]+"</td><td>"+data["cp_orders"][i]["order_no"]+"</td><td>"+data["cp_orders"][i]["mycount"]+"</td></tr>";            				
+    			nodeflag=data["cp_orders"][i]["node_name"];
+   				$('#orderseqs').append(tr);  
+   		    }	   
+		}
+	})
+}

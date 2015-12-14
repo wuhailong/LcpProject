@@ -17,7 +17,7 @@ window.onload = function()
 				+ data["cp_cp"][i]["cp_id"] + "</td><td>" 
 				+ data["cp_cp"][i]["cp_name"] + "</td><td>" 
 				+ data["cp_cp"][i]["cp_code"] + "</td><td>" 	
-				+ data["cp_cp"][i]["cp_version"] + "</td><td></tr>";
+				+ data["cp_cp"][i]["cp_version"] + "</td></tr>";
 				$('#optionContainer').append(tr);  
 		     }	    
 		}

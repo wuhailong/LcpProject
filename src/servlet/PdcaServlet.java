@@ -48,7 +48,7 @@ public class PdcaServlet extends HttpServlet {
 
 	}
 
-	public void GeneralOperation(char p_strOP) throws SQLException {
+	public void GeneralOperation(char p_strOP) throws SQLException, ServletException, IOException {
 		switch (p_strOP) {
 		case '0':
 			GetVaNodeCount();
@@ -65,28 +65,62 @@ public class PdcaServlet extends HttpServlet {
 		case '4':
 			GetOrderSeqs();
 			break;
+		
 		default:
 		}
 	}
 
 	/**
+	 * 跳转到临床路径医嘱执行统计界面
+	 * 2015-12-12
+	 * 吴海龙 
+	 */
+	public void GotoOrders() throws ServletException, IOException{
+		request.getRequestDispatcher("/ordercp.jsp").forward(request,response);
+	}
+	/**
 	 * 获取临床路径下的医嘱执行频此
 	 * 2015-12-11
 	 * 吴海龙 
+	 * @throws ServletException 
 	 */
-	public void GetOrderSeqs(){
+	public void GetOrderSeqs() throws ServletException{
 		String _strCpId = request.getParameter("cp_id");
-		String _strSQL = " select (select cp_node_name\r\n"
-				+ " from lcp_master_node\r\n"
-				+ " where cp_id = '"+_strCpId+"'\r\n"
-				+ " and cp_node_id = t.cp_node_id) node_name,\r\n"
-				+ " t.cp_node_order_text order_text,\r\n"
-				+ " order_no,\r\n"
-				+ " count(*) mycount\r\n"
-				+ " from LCP_PATIENT_ORDER_ITEM t\r\n"
-				+ " where cp_id = '"+_strCpId+"'\r\n"
-				+ " group by cp_node_id, order_no, t.cp_node_order_text\r\n"
-				+ " order by cp_node_id asc, mycount desc";
+		String _strSQL = "select a.node_name,\r\n" + 
+				"       a.cp_node_order_text order_text,\r\n" + 
+				"       a.order_no,\r\n" + 
+				"       a.cp_node_order_id,\r\n" + 
+				"       a.cp_node_order_item_id,\r\n" + 
+				"       a.ORDER_ITEM_SET_ID,\r\n" + 
+				"       nvl(b.mycount, 0) mycount\r\n" + 
+				"  from (select cp_id,\r\n" + 
+				"               (select cp_node_name\r\n" + 
+				"                  from lcp_master_node\r\n" + 
+				"                 where cp_id = '"+_strCpId+"'\r\n" + 
+				"                   and cp_node_id = li.cp_node_id) node_name,\r\n" + 
+				"               cp_node_id,\r\n" + 
+				"               order_no,\r\n" + 
+				"               cp_node_order_id,\r\n" + 
+				"               cp_node_order_item_id,\r\n" + 
+				"               ORDER_ITEM_SET_ID,\r\n" + 
+				"               cp_node_order_text\r\n" + 
+				"          from LCP_NODE_ORDER_ITEM li\r\n" + 
+				"         where cp_id = '"+_strCpId+"') a\r\n" + 
+				"  left outer join (select (select cp_node_name\r\n" + 
+				"                             from lcp_master_node\r\n" + 
+				"                            where cp_id = '"+_strCpId+"'\r\n" + 
+				"                              and cp_node_id = t.cp_node_id) node_name,\r\n" + 
+				"                          t.cp_node_order_text order_text,\r\n" + 
+				"                          order_no,\r\n" + 
+				"                          count(*) mycount\r\n" + 
+				"                     from LCP_PATIENT_ORDER_ITEM t\r\n" + 
+				"                    where cp_id = '"+_strCpId+"'\r\n" + 
+				"                    group by cp_node_id, order_no, t.cp_node_order_text) b\r\n" + 
+				"    on a.order_no = b.order_no\r\n" + 
+				" order by cp_node_id            asc,\r\n" + 
+				"          cp_node_order_id      asc,\r\n" + 
+				"          cp_node_order_item_id asc,\r\n" + 
+				"          mycount               desc";
 		ResultSet _rsData = this.ExcuteBySQL(_strSQL);
 		try {
 			String _strJson = "{\"cp_orders\":[";
@@ -101,13 +135,14 @@ public class PdcaServlet extends HttpServlet {
 				+ "\",\"mycount\":" + _nOrderCount + "},";
 			}
 			_strJson = _strJson.substring(0, _strJson.length() - 1);
-			_strJson += "]}";			
+			_strJson += "]}";
+			if("{\"cp_orders\":]}"==_strJson){}
 			System.out.println(_strJson);
 			try {
 				this.response.setContentType("text/html;charset=UTF-8");
 				this.response.getWriter().print(_strJson);
 				this.response.getWriter().flush();
-				this.response.getWriter().close();
+				this.response.getWriter().close();				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
