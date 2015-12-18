@@ -65,6 +65,8 @@ public class PdcaServlet extends HttpServlet {
 		case '4':
 			GetOrderSeqs();
 			break;
+		case '5':
+			GetDiOrders();
 		
 		default:
 		}
@@ -78,61 +80,137 @@ public class PdcaServlet extends HttpServlet {
 	public void GotoOrders() throws ServletException, IOException{
 		request.getRequestDispatcher("/ordercp.jsp").forward(request,response);
 	}
+	
+	
 	/**
-	 * 获取临床路径下的医嘱执行频此
+	 * 获取第一条对比第二条不同的医嘱
+	 * 2015-12-17
+	 * 吴海龙 
+	 */
+	public String GetDiOrdersByFlag(String p_strFlag,String p_strCpIdOne,String p_strCpIdTwo) {
+		String _strCpIdOne = p_strCpIdOne;
+		String _strCpIdTwo = p_strCpIdTwo;
+		String _strFlag = p_strFlag;
+		String _strJson ="";
+		String _strSQL = " select a.cp_id,\r\n" + "        a.cp_node_id,\r\n"
+				+ "        a.cp_node_name       node_name,\r\n"
+				+ "        b.order_no,\r\n"
+				+ "        b.cp_node_order_text order_text\r\n"
+				+ "   from (select *\r\n"
+				+ "           from LCP_MASTER_NODE\r\n"
+				+ "          where cp_id = '" + _strCpIdOne + "'\r\n"
+				+ "            and cp_node_type = '1') a,\r\n"
+				+ "        (select * from LCP_NODE_ORDER_ITEM where cp_id = '"
+				+ _strCpIdOne + "') b\r\n"
+				+ "  where a.cp_node_id = b.cp_node_id\r\n"
+				+ "    and a.cp_node_id || b.order_no not in\r\n"
+				+ "        (select cp_node_id || order_no\r\n"
+				+ "           from LCP_NODE_ORDER_ITEM\r\n"
+				+ "          where cp_id = '" + _strCpIdTwo
+				+ "') order by cp_node_id\r\n" + "";
+		ResultSet _rsData = this.ExcuteBySQL(_strSQL);
+		try {
+			String _strCp = "";
+			if (_strFlag.equals("one")) {
+				_strCp = "cp_disorderone";
+			} else {
+				_strCp = "cp_disordertwo";
+			}
+			Boolean _hasData = false;
+		    _strJson = "\""+_strCp + "\":[";
+			while (_rsData.next()) {
+				_hasData = true;
+				String _strCpName = _rsData.getString("node_name");
+				String _strOrderText = _rsData.getString("order_text");
+				_strJson += "{" + "\"node_name\":\"" + _strCpName + "\","
+						+ "\"order_text\":\"" + _strOrderText + "\"" + "},";
+			}
+			if(_hasData){_strJson = _strJson.substring(0, _strJson.length() - 1);}
+			_strJson += "]";
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return _strJson;
+	}
+	
+	
+	
+	/**
+	 * 获取两临床路径下不同的医嘱
+	 * 2015-12-15
+	 * 吴海龙 
+	 */
+	public void GetDiOrders() {
+		String _strCpIdOne = request.getParameter("cpone");
+		String _strCpIdTwo = request.getParameter("cptwo");
+		String _strFlag = request.getParameter("flag");
+		String _strJson1 = GetDiOrdersByFlag("one",_strCpIdOne,_strCpIdTwo);
+		String _strJson2 = GetDiOrdersByFlag("two",_strCpIdTwo,_strCpIdOne);			
+		String _strJson ="{"+_strJson1+","+_strJson2+"}";
+		System.out.print(_strJson);
+			try {
+				this.response.setContentType("text/html;charset=UTF-8");
+				this.response.getWriter().print(_strJson);
+				this.response.getWriter().flush();
+				this.response.getWriter().close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}		
+	}
+	
+	/**
+	 * 获取临床路径下的医嘱执行次数
 	 * 2015-12-11
 	 * 吴海龙 
 	 * @throws ServletException 
 	 */
 	public void GetOrderSeqs() throws ServletException{
 		String _strCpId = request.getParameter("cp_id");
-		String _strSQL = "select a.node_name,\r\n" + 
-				"       a.cp_node_order_text order_text,\r\n" + 
-				"       a.order_no,\r\n" + 
-				"       a.cp_node_order_id,\r\n" + 
-				"       a.cp_node_order_item_id,\r\n" + 
-				"       a.ORDER_ITEM_SET_ID,\r\n" + 
-				"       nvl(b.mycount, 0) mycount\r\n" + 
-				"  from (select cp_id,\r\n" + 
-				"               (select cp_node_name\r\n" + 
-				"                  from lcp_master_node\r\n" + 
-				"                 where cp_id = '"+_strCpId+"'\r\n" + 
-				"                   and cp_node_id = li.cp_node_id) node_name,\r\n" + 
-				"               cp_node_id,\r\n" + 
-				"               order_no,\r\n" + 
-				"               cp_node_order_id,\r\n" + 
-				"               cp_node_order_item_id,\r\n" + 
-				"               ORDER_ITEM_SET_ID,\r\n" + 
-				"               cp_node_order_text\r\n" + 
-				"          from LCP_NODE_ORDER_ITEM li\r\n" + 
-				"         where cp_id = '"+_strCpId+"') a\r\n" + 
-				"  left outer join (select (select cp_node_name\r\n" + 
-				"                             from lcp_master_node\r\n" + 
-				"                            where cp_id = '"+_strCpId+"'\r\n" + 
-				"                              and cp_node_id = t.cp_node_id) node_name,\r\n" + 
-				"                          t.cp_node_order_text order_text,\r\n" + 
-				"                          order_no,\r\n" + 
-				"                          count(*) mycount\r\n" + 
-				"                     from LCP_PATIENT_ORDER_ITEM t\r\n" + 
-				"                    where cp_id = '"+_strCpId+"'\r\n" + 
-				"                    group by cp_node_id, order_no, t.cp_node_order_text) b\r\n" + 
-				"    on a.order_no = b.order_no\r\n" + 
-				" order by cp_node_id            asc,\r\n" + 
-				"          cp_node_order_id      asc,\r\n" + 
-				"          cp_node_order_item_id asc,\r\n" + 
-				"          mycount               desc";
+		String _strSQL = "select a.cp_id,\r\n" + 
+				"       (select cp_node_name\r\n" + 
+				"          from lcp_master_node\r\n" + 
+				"         where cp_id = '"+_strCpId+"'\r\n" + 
+				"           and cp_node_id = a.cp_node_id) node_name,\r\n" + 
+				"       a.cp_node_id,\r\n" + 
+				"       b.cp_node_order_id order_group_id,\r\n" + 
+				"       b.cp_node_order_text order_group,\r\n" + 
+				"       c.cp_node_order_text order_text,\r\n" + 
+				"       c.order_no,\r\n" + 
+				"       (select count(*)\r\n" + 
+				"          from LCP_PATIENT_ORDER_ITEM\r\n" + 
+				"         where cp_id = '"+_strCpId+"'\r\n" + 
+				"           and cp_node_id = a.cp_node_id and order_no = c.order_no and cp_node_order_id = b.cp_node_order_id) mycount,\r\n" + 
+				"       (select count(*)\r\n" + 
+				"          from LCP_PATIENT_ORDER_ITEM\r\n" + 
+				"         where cp_id = '"+_strCpId+"'\r\n" + 
+				"           and cp_node_id = a.cp_node_id and cp_node_order_id = b.cp_node_order_id) groupcount\r\n" + 
+				"  from (select *\r\n" + 
+				"          from LCP_MASTER_NODE\r\n" + 
+				"         where cp_id = '"+_strCpId+"'\r\n" + 
+				"           and cp_node_type = '1') a,\r\n" + 
+				"       (select * from LCP_NODE_ORDER_POINT where cp_id = '"+_strCpId+"') b,\r\n" + 
+				"       (select * from LCP_NODE_ORDER_ITEM where cp_id = '"+_strCpId+"') c\r\n" + 
+				" where a.cp_node_id = b.cp_node_id\r\n" + 
+				"   and a.cp_node_id = c.cp_node_id\r\n" + 
+				"   and b.cp_node_order_id = c.cp_node_order_id\r\n" + 
+				" order by cp_node_id asc,groupcount desc, order_group, mycount desc";
 		ResultSet _rsData = this.ExcuteBySQL(_strSQL);
 		try {
 			String _strJson = "{\"cp_orders\":[";
 			while (_rsData.next()) {
 				String _strCpName = _rsData.getString("node_name");
+				String _strOrderGroup = _rsData.getString("order_group");
 				String _strOrderText = _rsData.getString("order_text");
 				String _nOrdrNo = _rsData.getString("order_no");
 				int _nOrderCount = _rsData.getInt("mycount");
+				int _nGroupCount = _rsData.getInt("groupcount");
 				_strJson += "{\"node_name\":\"" + _strCpName 
+				+ "\",\"order_group\":\""+ _strOrderGroup 
 				+ "\",\"order_text\":\""+ _strOrderText 
 				+ "\",\"order_no\":\"" + _nOrdrNo
-				+ "\",\"mycount\":" + _nOrderCount + "},";
+				+ "\",\"mycount\":" + _nOrderCount 
+				+ ",\"groupcount\":" + _nGroupCount + 
+				"},";
 			}
 			_strJson = _strJson.substring(0, _strJson.length() - 1);
 			_strJson += "]}";
@@ -160,26 +238,36 @@ public class PdcaServlet extends HttpServlet {
 	 */
 	public void GetCpVersions(){
 		String _strCpMaterId = request.getParameter("master_id");
-		String _strSQL = "select cp_id,cp_name,cp_code,(case cp_status when 0 then '启用' when 1 then '停用' when 2 then '等待审核' when 3 then '已退回' when 4 then '隐藏' else '其他' end) cp_status ,\r\n" + 
+		String _strSQL = "   select cp_id,cp_name,cp_code,\r\n" + 
+				"   (case cp_status \r\n" + 
+				"   when 0 then '启用' \r\n" + 
+				"     when 1 then '停用' \r\n" + 
+				"       when 2 then '等待审核' \r\n" + 
+				"         when 3 then '已退回' \r\n" + 
+				"           when 4 then '隐藏' \r\n" + 
+				"             else '其他' end) cp_status ,\r\n" + 
 				"round((sum(hzqk)*100/count(*)),2) cp_hzl,\r\n" + 
-				"round(avg(zyr),2) cp_pjzyr,\r\n" + 
-				"round(avg(zyf),2) cp_pjzyf \r\n" + 
+				"nvl(round(avg(zyr),2),0) cp_pjzyr,\r\n" + 
+				"nvl(round(avg(zyf),2),0) cp_pjzyf \r\n" + 
 				"from( select a.cp_status,a.cp_code,a.cp_id,a.cp_name,c.patient_no,\r\n" + 
 				"       (case b.TREAT_EFFECT when 1then 1 when 2 then 1 else 0 end)hzqk,\r\n" + 
 				"        round(B.DISCHARGE_DATE_TIME- B.ADMISSION_DATE_TIME,2) zyr,\r\n" + 
 				"        b.fee_total zyf\r\n" + 
-				"  from (select cp_id,cp_status,cp_name,cp_code\r\n" + 
-				"          from lcp_master\r\n" + 
-				"         where cp_master_id = '"+_strCpMaterId+"'\r\n" + 
-				"           and cp_start_user is not null) a,\r\n" + 
-				"       (select b1.*, b2.FEE_TOTAL\r\n" + 
-				"          from LCP_PATIENT_FIRSTPAGE b1 ,LCP_PATIENT_FEE b2\r\n" + 
-				"         where b1.patient_no = b2.patient_no) b,\r\n" + 
-				"       (select CP_ID, PATIENT_NO\r\n" + 
-				"          FROM LCP_PATIENT_NODE\r\n" + 
-				"         GROUP BY CP_ID, PATIENT_NO) c\r\n" + 
-				" where a.cp_id = c.cp_id\r\n" + 
-				"   and c.patient_NO = B.PATIENT_NO) group by cp_id,cp_name,cp_code,cp_status";
+				"    from (select cp_id, cp_status, cp_name, cp_code\r\n" + 
+				"            from lcp_master\r\n" + 
+				"           where cp_master_id = '"+_strCpMaterId+"') a\r\n" + 
+				"    left outer join (select CP_ID, PATIENT_NO\r\n" + 
+				"                       FROM LCP_PATIENT_NODE\r\n" + 
+				"                      GROUP BY CP_ID, PATIENT_NO) c\r\n" + 
+				"      on a.cp_id = c.cp_id\r\n" + 
+				"    left outer join (select b1.TREAT_EFFECT,\r\n" + 
+				"                            b1.PATIENT_NO,\r\n" + 
+				"                            b1.DISCHARGE_DATE_TIME,\r\n" + 
+				"                            b1.ADMISSION_DATE_TIME,\r\n" + 
+				"                            b2.FEE_TOTAL\r\n" + 
+				"                       from LCP_PATIENT_FIRSTPAGE b1, LCP_PATIENT_FEE b2\r\n" + 
+				"                      where b1.patient_no = b2.patient_no) b\r\n" + 
+				"      on c.patient_NO = B.PATIENT_NO ) group by cp_id,cp_name,cp_code,cp_status";
 		ResultSet _rsData = this.ExcuteBySQL(_strSQL);
 		try {
 			String _strJson = "{\"cp_cp\":[";
