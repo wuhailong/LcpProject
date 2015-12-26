@@ -10,15 +10,14 @@ window.onload = function() {
 		},
 		success : function(data) {
 			for ( var i = 0; i < data["cp_cp"].length; i++) {
-				var tr = "<tr onclick=getCpVersions(); id=option" + i + "><td>"
-						+ data["cp_cp"][i]["cp_master_id"]
-						+ "</td><td style='display:none'>"
-						+ data["cp_cp"][i]["cp_id"] + "</td><td>"
-						+ data["cp_cp"][i]["cp_name"]
-						+ "</td><td style='display:none'>"
-						+ data["cp_cp"][i]["cp_code"]
-						+ "</td><td style='display:none'>"
-						+ data["cp_cp"][i]["cp_version"] + "</td></tr>";
+				var tr = "<tr onclick=getCpVersions(); id=option" + i + ">" +
+						"<td>"+ data["cp_cp"][i]["cp_master_id"]+ "</td>" +
+						"<td style='display:none'>"+ data["cp_cp"][i]["cp_id"] + "</td>" +
+						"<td>"+ data["cp_cp"][i]["cp_name"]+ "</td>" +
+						"<td style='display:none'>"+ data["cp_cp"][i]["cp_code"]+ "</td>" +
+						"<td style='display:none'>"+ data["cp_cp"][i]["cp_version"] + "</td>" +
+						"<td>"+ data["cp_cp"][i]["dept_name"]+ "</td>" +
+						"</tr>";
 				$('#cplist').append(tr);
 			}
 		}
@@ -49,7 +48,7 @@ function setCheck(o) {
 function getCpVersions() {
 	var rows = document.getElementById("optionContainer").rows;
 	if (rows.length > 0) {
-		for ( var i = 1; i < rows.length; i++) {
+		for ( var i = 0; i < rows.length; i++) {
 			(function(i) {
 				var cp_master_id = rows[i].cells[0].innerText;
 				var cp_id = rows[i].cells[1].innerText;
@@ -60,6 +59,8 @@ function getCpVersions() {
 					$('#cpversionscontain').empty();
 					$('#cpone').empty();
 					$('#cptwo').empty();
+					$('#mytitle1').text('路径：');
+					$('#mytitle2').text('路径：');
 					for ( var j = 0; j < rows.length; j++) {
 						if (rows[j] == this) { // 判断是不是当前选择的行
 							rows[j].style.background = "#D1EEEE";
@@ -120,6 +121,8 @@ function getCompare() {
 	if (selectedData.length == 2) {
 		$('#cpone').empty();
 		$('#cptwo').empty();
+		$('#mytitle1').text('路径：'+selectedData[0]);
+		$('#mytitle2').text('路径：'+selectedData[1]);
 		$.ajax({
 			url : 'PdcaServlet?ran=+Math.random()',
 			data : {

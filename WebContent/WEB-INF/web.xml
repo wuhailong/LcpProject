@@ -7,7 +7,7 @@
   <!--个性化servlet开始  -->
   <servlet>
 		<servlet-name>PdcaServlet</servlet-name>
-		<servlet-class>servlet.PdcaServlet</servlet-class>
+		<servlet-class>com.goodwillcis.lcp.servlet.pdca.PdcaServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>PdcaServlet</servlet-name>
@@ -15,11 +15,19 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>PdcaServlet2</servlet-name>
-		<servlet-class>servlet.PdcaServlet</servlet-class>
+		<servlet-class>com.goodwillcis.lcp.servlet.pdca.PdcaServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>PdcaServlet2</servlet-name>
 		<url-pattern>/PdcaServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PdcaServlet3</servlet-name>
+		<servlet-class>com.goodwillcis.lcp.servlet.pdca.PdcaServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PdcaServlet3</servlet-name>
+		<url-pattern>/cppdca/PdcaServlet</url-pattern>
 	</servlet-mapping>
 	<!-- 个性化servlet结束 -->
   <servlet>

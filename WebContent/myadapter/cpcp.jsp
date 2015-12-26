@@ -25,6 +25,7 @@
 						<th>路径名称</th>
 						<th style="display: none">路径编码</th>
 						<th style="display: none">版本号</th>
+						<th >科室</th>
 					</tr>
 				</thead>
 				<tbody id="cplist"></tbody>
@@ -57,7 +58,7 @@
 					<table class="bordered" id="example-advancedone">
 						<thead>
 							<tr>
-								<th width="100%">节点</th>
+								<th id="mytitle1" width="100%">路径：</th>
 							</tr>
 						</thead>
 						<tbody id='cpone'></tbody>
@@ -67,7 +68,7 @@
 					<table class="bordered" id="example-advancedtwo">
 						<thead>
 							<tr>
-								<th width="100%">节点</th>
+								<th id="mytitle2" width="100%">路径：</th>
 							</tr>
 						</thead>
 						<tbody id='cptwo'></tbody>

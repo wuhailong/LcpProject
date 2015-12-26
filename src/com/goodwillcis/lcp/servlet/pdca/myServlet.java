@@ -1,4 +1,4 @@
-package servlet;
+package com.goodwillcis.lcp.servlet.pdca;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
