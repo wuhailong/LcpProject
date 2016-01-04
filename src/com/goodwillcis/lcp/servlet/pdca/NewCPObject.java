@@ -108,45 +108,52 @@ public class NewCPObject {
 	 * 返回精简后的路径简明情况 2015-12-25 吴海龙
 	 */
 	public String GetClearedCp() {
-		String _strSQL = "select a.cp_id,\r\n" + "a.order_no,a.cp_node_id,\r\n"
-				+ "(select cp_node_name\r\n" + "from lcp_master_node\r\n"
-				+ "where cp_id = '"
-				+ LcpMaster.m_strTargetCpId
-				+ "'\r\n"
-				+ "and cp_node_id = a.cp_node_id) node_name,\r\n"
-				+ "a.cp_node_order_id,\r\n"
-				+ "a.cp_node_order_item_id,\r\n"
-				+ "b.cp_node_order_text group_name,\r\n"
-				+ "a.cp_node_order_text,\r\n"
-				+ "a.SPECIFICATION, --规格\r\n"
-				+ "a.MEASURE, --领量\r\n"
-				+ "a.FREQUENCY, --频次\r\n"
-				+ "(case a.ORDER_KIND\r\n"
-				+ "when '0' then\r\n"
-				+ "'临时'\r\n"
-				+ "when '1' then\r\n"
-				+ "'长期'\r\n"
-				+ "when '2' then\r\n"
-				+ "'出院'\r\n"
-				+ "else\r\n"
-				+ "''\r\n"
-				+ "end) as ORDER_KIND --类型\r\n"
-				+ "from LCP_NODE_ORDER_ITEM a, lcp_node_order_point b\r\n"
-				+ "where a.hospital_id = b.hospital_id\r\n"
-				+ "and a.cp_id = b.cp_id\r\n"
-				+ "and a.cp_node_id = b.cp_node_id\r\n"
-				+ "and a.cp_node_order_id = b.cp_node_order_id\r\n"
-				+ "and a.cp_id = '" + LcpMaster.m_strTargetCpId + "'" +
-				" order by cp_node_id asc, cp_node_order_id, cp_node_order_item_id";
+		String _strSQL = "select \r\n" + 
+				"d.cp_code,\r\n" + 
+				"a.cp_id,\r\n" + 
+				"a.order_no,\r\n" + 
+				"a.cp_node_id,\r\n" + 
+				"c.cp_node_name,\r\n" + 
+				"a.cp_node_order_id,\r\n" + 
+				"a.cp_node_order_item_id,\r\n" + 
+				"b.cp_node_order_text group_name,\r\n" + 
+				"a.cp_node_order_text,\r\n" + 
+				"a.SPECIFICATION, --规格\r\n" + 
+				"a.MEASURE, --领量\r\n" + 
+				"a.FREQUENCY, --频次\r\n" + 
+				"(case a.ORDER_KIND\r\n" + 
+				"when '0' then\r\n" + 
+				"'临时'\r\n" + 
+				"when '1' then\r\n" + 
+				"'长期'\r\n" + 
+				"when '2' then\r\n" + 
+				"'出院'\r\n" + 
+				"else\r\n" + 
+				"''\r\n" + 
+				"end) as ORDER_KIND --类型\r\n" + 
+				"from lcp_master d,lcp_master_node c, LCP_NODE_ORDER_ITEM a, lcp_node_order_point b\r\n" + 
+				"where \r\n" + 
+				"d.hospital_id = c.hospital_id\r\n" + 
+				"and d.cp_id = c.cp_id\r\n" + 
+				"and c.hospital_id = a.hospital_id\r\n" + 
+				"and c.cp_id = a.cp_id\r\n" + 
+				"and c.cp_node_id = a.cp_node_id\r\n" + 
+				"and a.hospital_id = b.hospital_id\r\n" + 
+				"and a.cp_id = b.cp_id\r\n" + 
+				"and a.cp_node_id = b.cp_node_id\r\n" + 
+				"and a.cp_node_order_id = b.cp_node_order_id\r\n" + 
+				"and a.cp_id = '"+LcpMaster.m_strTargetCpId+"'\r\n" + 
+				"order by cp_node_id asc, cp_node_order_id, cp_node_order_item_id";
 		List<Object> _listLcpClone = new ArrayList();
 		ResultSet _rsData = CommonFunction.ExecuteQuery(_strSQL);
 		try {
 			String _strJson = "{\"cp_orders\":[";
 			while (_rsData.next()) {
+				String _strCpCode = _rsData.getString("cp_code");
 				String _strOrderNo = _rsData.getString("order_no");
 				int _nCpId = _rsData.getInt("cp_id");
 				int _nNodeId = _rsData.getInt("cp_node_id");
-				String _strNodeName = _rsData.getString("node_name");
+				String _strNodeName = _rsData.getString("cp_node_name");
 				int _nNodeOrderId = _rsData.getInt("cp_node_order_id");
 				int _nNodeOrderItemId = _rsData.getInt("cp_node_order_item_id");// cp_node_order_item_id
 				String _strGroupName = _rsData.getString("group_name");
@@ -157,7 +164,7 @@ public class NewCPObject {
 				String _strOrderKind = _rsData.getString("ORDER_KIND");
 				
 				// double _dLv = _rsData.getDouble("lv");
-				_strJson += "{\"cp_id\":" + _nCpId + "," + "\"node_id\":"
+				_strJson += "{\"cp_code\":\""+_strCpCode+"\",\"cp_id\":" + _nCpId + "," + "\"node_id\":"
 						+ _nNodeId + "," + "\"node_name\":\"" + _strNodeName
 						+ "\"," + "\"order_id\":" + _nNodeOrderId + ","
 						+ "\"order_item_id\":" + _nNodeOrderItemId + ","

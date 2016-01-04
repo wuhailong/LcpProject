@@ -60,6 +60,7 @@ public class PdcaServlet extends HttpServlet {
 
 	public void GeneralOperation(char p_strOP) throws SQLException, ServletException, IOException {
 		String _strJson = "";
+		String _strCurrentCpId ="";
 		switch (p_strOP) {
 		case '0':
 			GetVaNodeCount();
@@ -80,21 +81,32 @@ public class PdcaServlet extends HttpServlet {
 			GetDiOrders();
 			break;
 		case '6':
-			String _strCurrentCpId = request.getParameter("cp_id");
+		    _strCurrentCpId = request.getParameter("cp_id");
 			InAndOutCompare iaoc = new InAndOutCompare();
 			_strJson = iaoc.GetUsingCpInfo(_strCurrentCpId);
 			break;
 		case '7':
-			GetTopFourCps();
+			 _strCurrentCpId = request.getParameter("cp_id");
+			 CompareCpVersions ccv = new CompareCpVersions();
+			 _strJson =ccv.GetTopFourCps(_strCurrentCpId);
 			break;
 		case '8':
-			GetUsingCPOrderSeqsByMasterId();
+			_strCurrentCpId = request.getParameter("cp_id");
+			CpOrdersExcuteStatus coes = new CpOrdersExcuteStatus();
+			_strJson =coes.GetOrderSeqsByCPId(_strCurrentCpId);
 			break;
 		case '9':
-			GetVaNodeCountByMasterId();	
+			_strCurrentCpId = request.getParameter("cp_id");
+			CpNodeVaGraph cnvg = new CpNodeVaGraph();
+			_strJson =cnvg.GetVaNodeCountByCpId(_strCurrentCpId);
 			break;
 		case 'A':
 			GetSelectOrders();
+			break;
+		case 'B':
+			_strCurrentCpId = request.getParameter("cp_id");
+			JoinOutOrders outorders =new  JoinOutOrders();
+			_strJson = outorders.GetOutOrderSeqsByCPId(_strCurrentCpId);
 			break;
 		default:
 		}
@@ -499,84 +511,7 @@ public class PdcaServlet extends HttpServlet {
 		
 	}
 	
-	/**
-	 * 获取前四条临床路径
-	 * 2015-12-22
-	 * 吴海龙 
-	 */
-	public void GetTopFourCps(){
-		String _strCpMaterId = request.getParameter("master_id");
-		String _strSQL = "select * from (select cp_id,cp_name,cp_code,cp_status,\r\n" + 
-				" (case cp_status \r\n" + 
-				" when 0 then '启用' \r\n" + 
-				" when 1 then '停用' \r\n" + 
-				" when 2 then '等待审核' \r\n" + 
-				" when 3 then '已退回' \r\n" + 
-				" when 4 then '隐藏' \r\n" + 
-				" else '其他' end) cp_status_name ,\r\n" + 
-				" round((sum(hzqk)*100/count(*)),2) cp_hzl,\r\n" + 
-				" nvl(round(avg(zyr),2),0) cp_pjzyr,\r\n" + 
-				" nvl(round(avg(zyf),2),0) cp_pjzyf ,cp_create_date\r\n" + 
-				" from( select a.cp_status,a.cp_code,a.cp_id,a.cp_name,c.patient_no,cp_create_date,\r\n" + 
-				" (case b.TREAT_EFFECT when 1then 1 when 2 then 1 else 0 end)hzqk,\r\n" + 
-				" round(B.DISCHARGE_DATE_TIME- B.ADMISSION_DATE_TIME,2) zyr,\r\n" + 
-				" b.fee_total zyf\r\n" + 
-				" from (select cp_id, cp_status, cp_name, cp_code,cp_create_date\r\n" + 
-				" from lcp_master\r\n" + 
-				" where cp_master_id = '"+_strCpMaterId+"') a\r\n" + 
-				" left outer join (select CP_ID, PATIENT_NO\r\n" + 
-				" FROM LCP_PATIENT_NODE\r\n" + 
-				" GROUP BY CP_ID, PATIENT_NO) c\r\n" + 
-				" on a.cp_id = c.cp_id\r\n" + 
-				" left outer join (select b1.TREAT_EFFECT,\r\n" + 
-				" b1.PATIENT_NO,\r\n" + 
-				" b1.DISCHARGE_DATE_TIME,\r\n" + 
-				" b1.ADMISSION_DATE_TIME,\r\n" + 
-				" b2.FEE_TOTAL\r\n" + 
-				" from LCP_PATIENT_FIRSTPAGE b1, LCP_PATIENT_FEE b2\r\n" + 
-				" where b1.patient_no = b2.patient_no) b\r\n" + 
-				" on c.patient_NO = B.PATIENT_NO )  \r\n" + 
-				" group by cp_id,cp_name,cp_code,cp_status,cp_create_date \r\n" + 
-				" order by cp_status asc,cp_create_date desc\r\n" + 
-				" )where rownum <5\r\n" + 
-				" ";
-		ResultSet _rsData = this.ExcuteBySQL(_strSQL);
-		try {
-			String _strJson = "{\"cp_cp\":[";
-			while (_rsData.next()) {
-				String _strCpId = _rsData.getString("cp_id");
-				String _strCpName = _rsData.getString("cp_name");
-				String _strCpCode = _rsData.getString("cp_code");
-				Double _nCphzl = _rsData.getDouble("cp_hzl");
-				Double _nCppjzyr = _rsData.getDouble("cp_pjzyr");
-				Double _nCppjzyf = _rsData.getDouble("cp_pjzyf");
-				String _strCpStatus = _rsData.getString("cp_status_name");
-				_strJson += "{\"cp_id\":\"" + _strCpId + "\",\"cp_name\":\""
-						+ _strCpName + "\",\"cp_code\":\"" + _strCpCode
-						+ "\",\"cp_hzl\":" + _nCphzl + ",\"cp_pjzyr\":"
-						+ _nCppjzyr + ",\"cp_pjzyf\":" + _nCppjzyf
-						+ ",\"cp_status\":\"" + _strCpStatus + "\"},";
-			}
-			_strJson = _strJson.substring(0, _strJson.length() - 1);
-			_strJson += "]}";
-			if("{\"cp_cp\":]}"==_strJson){
-				_strJson="{\"cp_cp\":[{\"cp_id\":\"no record\",\"cp_name\":\"no record\",\"cp_code\":\"no record\",\"cp_hzl\":0.00,\"cp_pjzyr\":0.00,\"cp_pjzyf\":0.00,\"cp_status\":\"no record\"}]}";
-			}		
-			
-			System.out.println(_strJson);
-			try {
-				this.response.setContentType("text/html;charset=UTF-8");
-				this.response.getWriter().print(_strJson);
-				this.response.getWriter().flush();
-				this.response.getWriter().close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-	}
+
 	
 	/**
 	 * 获取主路径的不同版本路径
@@ -823,11 +758,18 @@ public class PdcaServlet extends HttpServlet {
 				String _strDeptName = _rsData.getString("dept_name");
 				int _nFcount = _rsData.getInt("fcount");
 				int _nTcount = _rsData.getInt("tcount");
-				int _nVa = _rsData.getInt("va");
-				_strJson += "{\"master_id\":\""+_strMasterId+"\",\"cp_id\":\"" + _strCpId + "\",\"cp_name\":\""
-						+ _strCpName + "\",\"cp_code\":\"" + _strCpCode
-						+ "\",\"fcount\":" + _nFcount + ",\"tcount\":"
-						+ _nTcount + ",\"va\":" + _nVa + ",\"dept_name\":\""+_strDeptName+"\"},";
+				int _nVa = _rsData.getInt("va");//cp_status_name
+				String _strCpStatus = _rsData.getString("cp_status_name");
+				_strJson += "{\"master_id\":\""+_strMasterId+"\"," +
+							 "\"cp_id\":\"" + _strCpId + "\"," +
+							 "\"cp_name\":\""+ _strCpName + "\"," +
+							 "\"cp_code\":\"" + _strCpCode+ "\"," +
+							 "\"fcount\":" + _nFcount + "," +
+							 "\"tcount\":"+ _nTcount + "," +
+							 "\"va\":" + _nVa + "," +
+							 "\"dept_name\":\""+_strDeptName+"\"," +
+							 "\"cp_status\":\""+_strCpStatus+"\"" +
+							 "},";
 			}
 			_strJson = _strJson.substring(0, _strJson.length() - 1);
 			_strJson += "]}";
@@ -882,81 +824,9 @@ public class PdcaServlet extends HttpServlet {
 
 	}
 
-	/**
-	 *
-	 * 2015-12-22
-	 * 吴海龙 
-	 * @throws SQLException 
-	 */
-	public void GetVaNodeCountByMasterId() throws SQLException{
-		String _strMasterId = request.getParameter("master_id");
-		String _strCpId = GetUsingCPIdByMasterId(_strMasterId);
-		GetVaNodeCountByCpId(_strCpId);
-	}
 	
-	/**
-	 * 获取变异节点
-	 * 2015-12-18
-	 * 吴海龙 
-	 */
-	public void GetVaNodeCountByCpId(String p_strCpId) throws SQLException {
-		String _strCpId = p_strCpId;
-		System.out.println("cp_id" + _strCpId);
-		String _strSQL = " select mm.node_no,mm.cp_node_name byjd, mm.cp_node_id, nvl(nn.mycount, 0) mycount"
-				+ " from (select rownum node_no, m.cp_node_name, cp_node_id"
-				+ " from LCP_MASTER_NODE m"
-				+ " where cp_id = '"
-				+ _strCpId
-				+ "'"
-				+ " and cp_node_type = '1') mm"
-				+ " left outer join (select rownum node_no, x.*"
-				+ " from (select m.byjd cp_node_id, count(*) mycount"
-				+ " from (select m.patient_no, count(*) byjd"
-				+ " from LCP_PATIENT_NODE m,"
-				+ " (select tt.patient_no"
-				+ " from LCP_PATIENT_NODE tt"
-				+ " where cp_id = '"
-				+ _strCpId
-				+ "'"
-				+ " and cp_node_type = '4') n"
-				+ " where m.patient_no = n.patient_no"
-				+ " group by m.patient_no) m"
-				+ " group by byjd) x) nn"
-				+ " on mm.node_no = nn.node_no" + " order by cp_node_id asc";
-		ResultSet _rsData = this.ExcuteBySQL(_strSQL);
-		int _nCount = GetCpNodeCount(_strCpId);
-		try {
-			int _nMaxCount = 0;
-			String _strJson = "{\"cp\":[";
-			while (_rsData.next()) {
-				String _strNodeName = _rsData.getString("byjd");
-				String _strNodeId = _rsData.getString("cp_node_id");
-				int _nMyCount = _rsData.getInt("mycount");
-				int _nNodeNo = _rsData.getInt("node_no");
-				_nMaxCount = _nMaxCount < _nMyCount ? _nMyCount : _nMaxCount;
-				System.out.println(_strNodeName + "---" + _nMyCount);
-				_strJson += " {\"node_name\":\"" + _strNodeName
-						+ "\",\"node_no\":" + _nNodeNo + ",\"node_id\":"
-						+ _strNodeId + ",\"vacount\":" + _nMyCount + "},";
-			}
-			_strJson = _strJson.substring(0, _strJson.length() - 1);
-			_strJson += "],\"numberx\":" + _nCount;
-			_strJson += ",\"endy\":" + ((_nMaxCount / 10) + 1) * 10;
-			_strJson += "}";
-			System.out.println(_strJson);
-			try {
-				this.response.setContentType("text/html;charset=UTF-8");
-				this.response.getWriter().print(_strJson);
-				this.response.getWriter().flush();
-				this.response.getWriter().close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	
+	
 	
 	/**
 	 * 获取变异节点

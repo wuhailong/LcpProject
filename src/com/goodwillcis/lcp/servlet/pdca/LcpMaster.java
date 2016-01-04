@@ -447,7 +447,8 @@ public class LcpMaster implements ICloneCp {
 				_objLcpMaster.getINPUT_CODE_WB(),
 				_objLcpMaster.getHEALTH_CARE_QUOTA());
 		System.out.println(_strSQL);
-		int _n = CommonFunction.ExecuteNonQuery(_strSQL);
+		int _n;
+		_n = CommonFunction.ExecuteNonQuery(_strSQL);
 		return _n;
 	}
 
@@ -504,7 +505,7 @@ public class LcpMaster implements ICloneCp {
 	}
 
 	@Override
-	public int CloneCpObject(Object _obj) throws SQLException {
+	public int CloneCpObject(Object _obj) {
 		LcpMaster _objLcpMaster = (LcpMaster) _obj;
 		String _strSQL = "insert into lcp_master\r\n" + "(cp_code,\r\n"
 				+ "hospital_id,\r\n" + "cp_id,\r\n" + "cp_name,\r\n"
@@ -577,7 +578,7 @@ public class LcpMaster implements ICloneCp {
 	}
 
 	@Override
-	public void CloneCpObjectList(List<Object> _listobj) throws SQLException {
+	public void CloneCpObjectList(List<Object> _listobj) {
 		for (Object object : _listobj) {
 			CloneCpObject(object);
 		}

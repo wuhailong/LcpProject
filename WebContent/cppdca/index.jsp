@@ -117,10 +117,11 @@
                         <li id="inoutcmpare"><a href="#about">院外与路径对比</a></li>
                         <li id="versioncmpare"><a href="#services">版本间对比</a></li>
                         <li id="checkorders"><a href="#showcase">查看路径医嘱</a></li>
+                         <li  id="checkoutorders"><a href="#sectionoutorders">非路径医嘱增加</a></li>
                         <li id="nodevariation"><a href="#contact-us">变异节点图</a></li>
-                        <li><a href="#our-team">非路径医嘱增加[FALSE]</a></li>
+                       
                         <li><a href="#pricing">新版本路径</a></li>                        
-                        <li><a href="#blog">其他</a></li>                        
+                        <!--<li><a href="#blog">其他</a></li>-->                        
                     </ul>
                 </nav>
 				<!-- /main nav -->
@@ -179,9 +180,9 @@
 							<!-- Express About Yourself -->
 							<div class="about-content text-center">
 								<h3>非路径执行情况</h3>
-								<p>治疗有效率:</p>
-								<p>平均住院费:</p>
-								<p>平均住院日:</p>
+								<p>治疗有效率:<span id="ufyxl";class="color"></span></p>
+								<p>平均住院费:<span id="ufzyf";class="color"></span></p>
+								<p>平均住院日:<span id="ufzyr";class="color"></span></p>
 							</div>
 						</div>
 					</div> 
@@ -367,6 +368,9 @@
 		<!-- Start Portfolio Section
 		=========================================== -->
 		
+	
+		
+		
 		<section id="showcase">
 			<div class="container">
 				<div class="row wow fadeInDown" data-wow-duration="500ms">
@@ -392,8 +396,9 @@
 						<tr style='font-size:12px,font-family:Helvetica, Arial, sans-serif'>
 							<th width="50%">医嘱名称</th>
 							<th width="20%">医嘱编码</th>
-							<th width="15%">执行次数</th>
-							<th width="10%">执行率</th>
+							<th width="15%">引用次数</th>
+							<th width="11%">引用率</th>
+							<!--  <th width="5%">总数</th>-->
 							<th width="5%">##</th>
 						</tr>
 					</thead>
@@ -401,9 +406,6 @@
 				</table>
 			</div>
 			
-		</section>   <!-- End section -->
-		
-		
 		
 		<!-- Start Team Skills
 		=========================================== -->
@@ -423,7 +425,44 @@
 				</div>  		<!-- End row -->
 			</div>   	<!-- End container -->
 		</section>   <!-- End section -->
+		</section>   <!-- End section -->
 		
+			<section id="sectionoutorders">
+			<div class="container">
+				<div class="row wow fadeInDown" data-wow-duration="500ms">
+					<div class="col-lg-12">
+					
+						<!-- section title -->
+						<div class="title text-center">
+							<h2>非路径医嘱增加</h2>
+							<div class="border"></div>
+						</div>
+						<!-- /section title -->
+					
+						
+						<!-- /portfolio item filtering -->
+						
+					</div> <!-- /end col-lg-12 -->
+				</div> <!-- end row -->
+			</div>	<!-- end container -->
+	
+		<div id="myorders">
+				<table class="bordered" id="out-orders">
+					<thead>
+						<tr style='font-size:12px,font-family:Helvetica, Arial, sans-serif'>
+							<th width="50%">医嘱名称</th>
+							<th width="20%">医嘱编码</th>
+							<th width="15%">引用次数</th>
+							<th width="11%">引用率</th>
+							<!--  <th width="5%">总数</th>-->
+							<th width="5%">##</th>
+						</tr>
+					</thead>
+					<tbody id='out-order-seqs'></tbody>
+				</table>
+			</div>
+			
+		</section>   <!-- End section -->
 		<section id="contact-us">
 			<div class="container">
 				<div class="row">
@@ -453,50 +492,7 @@
 		</section> <!-- end section -->
 		<!-- Start Our Team
 		=========================================== -->
-		
-		<section id="our-team">
-			<div class="container">
-				<div class="row">
-					<!-- section title -->
-					<div class="title text-center wow fadeInUp" data-wow-duration="500ms">
-						<h2>非路径医嘱增加</h2>
-						<div class="border"></div>
-					</div>
-					<!-- /section title -->
-				</div>  	<!-- End row -->
-			</div>   	<!-- End container -->
-		</section>   <!-- End section -->
-		
-		
-		<!-- Start Twitter Feed
-		=========================================== -->
-		
-		<section id="twitter-feed" class="parallax-section">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 text-center">
-					
-						<!-- twitter bird -->
-						<div class="twitter-bird wow fadeInDown" data-wow-duration="500ms">
-							<span>
-								<i class="fa fa-twitter fa-4x"></i>
-							</span>
-						</div>
-						<!-- /twitter bird -->
-						
-						<!-- fetching tweet -->
-						<div class="tweet wow fadeIn" data-wow-duration="2000ms"></div>
-						<!-- /fetching tweet -->
-						
-						<!-- follow us button -->
-						<a href="https://twitter.com/amimorshed" title="Follow Us" target="_blank" class="btn btn-transparent wow fadeInUp" data-wow-duration="500ms">Follow Us</a>						
-						<!-- /follow us button -->
-						
-					</div>
-				</div>       <!-- End row -->
-			</div>   	<!-- End container -->
-		</section>   <!-- End section -->
-		
+	
 		<!-- Start Pricing section
 		=========================================== -->
 
@@ -508,7 +504,7 @@
 				<div class="title text-center wow fadeInDown"
 					data-wow-duration="500ms">
 					<h2>
-						新版本路径</span>
+						新版本路径编码:<span id='newcpcode'></span>
 					</h2>
 					<div class="border"></div>
 				</div>
@@ -543,109 +539,7 @@
 	<!-- Start Testimonial
 		=========================================== -->
 		
-		<section id="testimonial" class="parallax-section">
-			<div class="container">
-				<div class="row">				
-					<div class="col-lg-12">
-					
-						<!-- section title -->
-						<div class="sub-title text-center wow fadeInDown" data-wow-duration="500ms">
-							<h3>What People Say About Us</h3>
-						</div>
-						<!-- /section title -->
-
-						<!-- testimonial wrapper -->
-						<div id="testimonials" class="wow fadeInUp" data-wow-duration="500ms" data-wow-delay="100ms">
-						
-							<!-- testimonial single -->
-							<div class="item text-center">
-								
-								<!-- client photo -->
-								<div class="client-thumb">
-									<img src="img/team/client.jpg" class="img-responsive" alt="Meghna">
-								</div>
-								<!-- /client photo -->
-								
-								<!-- client info -->
-								<div class="client-info">
-									<div class="client-meta">
-										<h3>Abul Mal Muhit</h3>
-										<span>Dec 26, 2014</span>
-									</div>
-									<div class="client-comment">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque, ex, cupiditate, error, suscipit saepe sed ea consequuntur inventore sequi sit illo.</p>
-										<ul class="social-profile">
-											<li><a href="#"><i class="fa fa-facebook-square fa-lg"></i></a></li>
-											<li><a href="#"><i class="fa fa-twitter-square fa-lg"></i></a></li>
-											<li><a href="#"><i class="fa fa-linkedin-square fa-lg"></i></a></li>
-										</ul>
-									</div>
-								</div>
-								<!-- /client info -->
-							</div>
-							<!-- /testimonial single -->
-						
-							<!-- testimonial single -->
-							<div class="item text-center">
-								
-								<!-- client photo -->
-								<div class="client-thumb">
-									<img src="img/team/client.jpg" class="img-responsive" alt="Meghna">
-								</div>
-								<!-- /client photo -->
-								
-								<!-- client info -->
-								<div class="client-info">
-									<div class="client-meta">
-										<h3>Abul Mal Muhit</h3>
-										<span>Dec 26, 2014</span>
-									</div>
-									<div class="client-comment">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque, ex, cupiditate, error, suscipit saepe sed ea consequuntur inventore sequi sit illo.</p>
-										<ul class="social-profile">
-											<li><a href="#"><i class="fa fa-facebook-square fa-lg"></i></a></li>
-											<li><a href="#"><i class="fa fa-twitter-square fa-lg"></i></a></li>
-											<li><a href="#"><i class="fa fa-linkedin-square fa-lg"></i></a></li>
-										</ul>
-									</div>
-								</div>
-								<!-- /client info -->
-							</div>
-							<!-- /testimonial single -->
-						
-							<!-- testimonial single -->
-							<div class="item text-center">
-								
-								<!-- client photo -->
-								<div class="client-thumb">
-									<img src="img/team/client.jpg" class="img-responsive" alt="Meghna">
-								</div>
-								<!-- /client photo -->
-								
-								<!-- client info -->
-								<div class="client-info">
-									<div class="client-meta">
-										<h3>Abul Mal Muhit</h3>
-										<span>Dec 26, 2014</span>
-									</div>
-									<div class="client-comment">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque, ex, cupiditate, error, suscipit saepe sed ea consequuntur inventore sequi sit illo.</p>
-										<ul class="social-profile">
-											<li><a href="#"><i class="fa fa-facebook-square fa-lg"></i></a></li>
-											<li><a href="#"><i class="fa fa-twitter-square fa-lg"></i></a></li>
-											<li><a href="#"><i class="fa fa-linkedin-square fa-lg"></i></a></li>
-										</ul>
-									</div>
-								</div>
-								<!-- /client info -->
-							</div>
-							<!-- /testimonial single -->
-							
-						</div>		<!-- end testimonial wrapper -->
-					</div> 		<!-- end col lg 12 -->
-				</div>	    <!-- End row -->
-			</div>       <!-- End container -->
-		</section>    <!-- End Section -->
+		
 		
 		
 		<!--
@@ -658,87 +552,18 @@
 
 					<!-- section title -->
 					<div class="title text-center wow fadeInDown">
-						<h2> Latest <span class="color">Posts</span></h2>
-						<div class="border"></div>
+						<h5>  <span class="color">路径生成过程复杂，耗时较长请耐心等待。</span></h5>
 					</div>
 					<!-- /section title -->
 
 					<div class="clearfix">
 					
-						<!-- single blog post -->
-						<article class="col-md-3 col-sm-6 col-xs-12 clearfix wow fadeInUp" data-wow-duration="500ms">
-							<div class="note">
-								<div class="media-wrapper">
-									<img src="img/blog/amazing-caves-coverimage.jpg" alt="amazing caves coverimage" class="img-responsive">
-								</div>
-								
-								<div class="excerpt">
-									<h3>Simple Image Post</h3>
-									<p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non skateboard dolor brunch.</p>
-									<a class="btn btn-transparent" href="single-post.html">Read more</a>
-								</div>
-							</div>						
-						</article>
-						<!-- /single blog post -->
 						
-						<!-- single blog post -->
-						<article class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="200ms">
-							<div class="note">
-								<div id="gallery-post" class="media-wrapper">
-									<div class="item">
-										<img src="img/blog/amazing-caves-coverimage.jpg" alt="amazing caves coverimage" class="img-responsive">
-									</div>
-									<div class="item">
-										<img src="img/blog/bicycle.jpg" alt="Flying bicycle" class="img-responsive">
-									</div>
-									<div class="item">
-										<img src="img/blog/3D-beach-art.jpg" alt="3D Beach Art | Meghna" class="img-responsive">
-									</div>
-								</div>
-								
-								<div class="excerpt">
-									<h3>Simple Slider Post</h3>
-									<p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non skateboard dolor brunch.</p>
-									<a class="btn btn-transparent" href="single-post.html">Read more</a>
-								</div>
-							</div>						
-						</article>
-						<!-- end single blog post -->
-						
-						<!-- single blog post -->
-						<article class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="400ms">
-							<div class="note">
-								<div class="media-wrapper">
-									<img src="img/blog/amazing-caves-coverimage.jpg" alt="amazing caves coverimage" class="img-responsive">
-								</div>
-								
-								<div class="excerpt">
-									<h3>Simple Image Post</h3>
-									<p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non skateboard dolor brunch.</p>
-									<a class="btn btn-transparent" href="single-post.html">Read more</a>
-								</div>
-							</div>						
-						</article>
-						<!-- end single blog post -->
-						
-						<!-- single blog post -->
-						<article class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="600ms">
-							<div class="note kill-margin-bottom">
-								<div class="media-wrapper">
-									<img src="img/blog/amazing-caves-coverimage.jpg" alt="amazing caves coverimage" class="img-responsive">
-								</div>
-								<div class="excerpt">
-									<h3>Simple Image Post</h3>
-									<p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non skateboard dolor brunch.</p>
-									<a class="btn btn-transparent" href="single-post.html">Read more</a>
-								</div>
-							</div>						
-						</article>
 						<!-- end single blog post -->
 					</div>
 
 					<div class="all-post text-center">
-						<a class="btn btn-transparent" href="blog.html">View All Post</a>
+						
 					</div>
 
 				</div> <!-- end row -->
@@ -760,13 +585,7 @@
 						<!-- Footer Social Links -->
 						<div class="social-icon">
 							<ul>
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-								<li><a href="#"><i class="fa fa-youtube"></i></a></li>
-								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-								<li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+								
 							</ul>
 						</div>
 						<!--/. End Footer Social Links -->
@@ -774,11 +593,11 @@
 						<!-- copyright -->
 						<div class="copyright text-center">
 							<a href="index.html">
-								<img src="img/logo-meghna.png" alt="Meghna" /> 
+								
 							</a>
 							<br />
 							
-							<p>More Templates <a href="http://www.cssmoban.com/" target="_blank" title="æ¨¡æ¿ä¹å®¶">æ¨¡æ¿ä¹å®¶</a> - Collect from <a href="http://www.cssmoban.com/" title="ç½é¡µæ¨¡æ¿" target="_blank">ç½é¡µæ¨¡æ¿</a>. Copyright &copy; 2015. All Rights Reserved.</p>
+							<p></p>
 						</div>
 						<!-- /copyright -->
 						

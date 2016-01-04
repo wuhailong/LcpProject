@@ -51,12 +51,15 @@
 	        db.FunRunSQLCommand(db.FunGetSvrKey(), updateSql);
 	      }
 	  //符合路径纳入
+	  //由于2015年12月开始income_code无法传入导致临床路径无法纳入，原因未找到；后分析local_code 与income_code
+	  //一致于是采用local_code作为纳入路径的判断标志 2015-12-29 
 	int hosid = LcpUtil.getHospitalID();
 	String sqlFuhe = "select cp_code, cp_id, cp_name, cp_version, cp_days, cp_fee, dept_name  from lcp_master "+ 
 				     "where cp_status = 0   and cp_id in  (select t1.cp_id   from lcp_master_income t1, lcp_hospital_vs_cp t2,"+
 				 	 "lcp_master t3   where ((t2.hospital_id = "+hosid+" and  t1.hospital_id = t2.hospital_id "+
 				  	 "and t1.cp_id = t2.cp_id and  t2.cp_status = 1)  or  (t3.cp_id >= 10000 and t1.cp_id = t3.cp_id)) "+
-				 	 "and t1.cp_income_code in (select income_code  from lcp_patient_log_income where patient_no = '"+patient_no+"' "+
+				  	"and t1.cp_income_code in (select LOCAL_CODE  from lcp_patient_log_income where patient_no = '"+patient_no+"' "+
+				  	 //"and t1.cp_income_code in (select income_code  from lcp_patient_log_income where patient_no = '"+patient_no+"' "+
 	  			 	 "and (trim(local_key) in('2_1_0_初步诊断','3_1_0_最后诊断') or income_type='手术'))) order by cp_id";
 	String executedept = "select execute_dept from lcp_patient_visit  where patient_no='"+patient_no+"'";
 	String execute_dept = db.FunGetDataSetBySQL(executedept).FunGetDataAsStringByColName(0,"EXECUTE_DEPT");

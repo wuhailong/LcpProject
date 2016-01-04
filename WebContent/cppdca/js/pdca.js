@@ -17,10 +17,15 @@ $('#inoutcmpare').click(function() {
 		error : function() {
 
 		},
-		success : function(data) {					
-			$('#uyxl').text(data['cp_cp'][0]['cp_hzl']);
-			$('#uzyf').text(data['cp_cp'][0]['cp_pjzyf']);
-			$('#uzyr').text(data['cp_cp'][0]['cp_pjzyr']);
+		success : function(data) {
+			//路径内
+			$('#uyxl').text(data['cp_cp'][1]['cp_hzl']);
+			$('#uzyf').text(data['cp_cp'][1]['cp_pjzyf']);
+			$('#uzyr').text(data['cp_cp'][1]['cp_pjzyr']);
+			//--路径外
+			$('#ufyxl').text(data['cp_cp'][0]['cp_hzl']);
+			$('#ufzyf').text(data['cp_cp'][0]['cp_pjzyf']);
+			$('#ufzyr').text(data['cp_cp'][0]['cp_pjzyr']);
 		}
 	});
 });
@@ -32,8 +37,7 @@ $('#versioncmpare').click(function() {
 		url : '../PdcaServlet?ran=' + Math.random(),
 		data : {
 			op : "7",
-			master_id:$('#master_id').text()
-		    
+			cp_id:$('#current_cp_id').text()
 		},
 		dataType : 'json',
 		error : function() {
@@ -42,28 +46,28 @@ $('#versioncmpare').click(function() {
 		success : function(data) {
 			//启用版本参数
 			$('#vcpname').text(data['cp_cp'][0]['cp_name']);
-			$('#vcpid').text(data['cp_cp'][0]['cp_id']);
+			$('#vcpid').text(data['cp_cp'][0]['cp_code']);
 			$('#vzlhzl').text(data['cp_cp'][0]['cp_hzl']);
 			$('#vzyf').text(data['cp_cp'][0]['cp_pjzyf']);
 			$('#vzyr').text(data['cp_cp'][0]['cp_pjzyr']);
 			$('#vcpstatus').text(data['cp_cp'][0]['cp_status']);
 			//最近版本1
 			$('#vcpname1').text(data['cp_cp'][1]['cp_name']);
-			$('#vcpid1').text(data['cp_cp'][1]['cp_id']);
+			$('#vcpid1').text(data['cp_cp'][1]['cp_code']);
 			$('#vzlhzl1').text(data['cp_cp'][1]['cp_hzl']);
 			$('#vzyf1').text(data['cp_cp'][1]['cp_pjzyf']);
 			$('#vzyr1').text(data['cp_cp'][1]['cp_pjzyr']);
 			$('#vcpstatus1').text(data['cp_cp'][1]['cp_status']);
 			//最近版本2
 			$('#vcpname2').text(data['cp_cp'][2]['cp_name']);
-			$('#vcpid2').text(data['cp_cp'][2]['cp_id']);
+			$('#vcpid2').text(data['cp_cp'][2]['cp_code']);
 			$('#vzlhzl2').text(data['cp_cp'][2]['cp_hzl']);
 			$('#vzyf2').text(data['cp_cp'][2]['cp_pjzyf']);
 			$('#vzyr2').text(data['cp_cp'][2]['cp_pjzyr']);
 			$('#vcpstatus2').text(data['cp_cp'][2]['cp_status']);
 			//最近版本3
 			$('#vcpname3').text(data['cp_cp'][3]['cp_name']);
-			$('#vcpid3').text(data['cp_cp'][3]['cp_id']);
+			$('#vcpid3').text(data['cp_cp'][3]['cp_code']);
 			$('#vzlhzl3').text(data['cp_cp'][3]['cp_hzl']);
 			$('#vzyf3').text(data['cp_cp'][3]['cp_pjzyf']);
 			$('#vzyr3').text(data['cp_cp'][3]['cp_pjzyr']);
@@ -79,7 +83,7 @@ $('#checkorders').click(function() {
 		url : '../PdcaServlet?ran=' + Math.random(),
 		data : {
 			op : "8",
-			master_id:$('#master_id').text()
+			cp_id:$('#current_cp_id').text()
 		    
 		},
 		dataType : 'json',
@@ -97,16 +101,16 @@ $('#checkorders').click(function() {
 							"<td>--</td>" +
 							"<td>--</td>" +
 							"<td>--</td>" +
+							//"<td>--</td>" +
 							"<td>--</td>" +
 						"</tr>";
 					$('#orderseqs').append(tr);
 				}										
-				tr = "<tr data-tt-id='"+ parientid+ '-'+ i+ "' data-tt-parent-id='"+ parientid +"' style='font-size:12px,font-family:Helvetica, Arial, sans-serif'>" +
+				tr = "<tr onclick=setCheck(this); data-tt-id='"+ parientid+ '-'+ i+ "' data-tt-parent-id='"+ parientid +"' style='font-size:12px,font-family:Helvetica, Arial, sans-serif'>" +
 						"<td><span class='file'>"+ data["cp_orders"][i]["order_text"]+ "</span></td>" +
 						"<td name='order_no'>"+ data["cp_orders"][i]["order_no"]+ "</td>" +
 						"<td>"+ data["cp_orders"][i]["mycount"]+ "</td>" +
 						"<td>"+ data["cp_orders"][i]["lv"]+ "</td>" +
-						"<td><input id='vck' name='ck' type ='checkbox'></td>" +
 						"<td name='hospital_id' style='display: none'>"+ data["cp_orders"][i]["hospital_id"]+ "</td>" +
 						"<td name='cp_id' style='display: none'>"+ data["cp_orders"][i]["cp_id"]+ "</td>" +
 						"<td name='node_id' style='display: none'>"+ data["cp_orders"][i]["node_id"]+ "</td>" +
@@ -114,6 +118,8 @@ $('#checkorders').click(function() {
 						"<td name='order_group_id' style='display: none'>"+ data["cp_orders"][i]["order_group_id"]+ "</td>" +
 						"<td name='order_item_id' style='display: none'>"+ data["cp_orders"][i]["order_item_id"]+ "</td>" +
 						"<td name='sub_group_id' style='display: none'>"+ data["cp_orders"][i]["sub_group_id"]+ "</td>" +
+						//"<td name='sumcount' >"+ data["cp_orders"][i]["sumcount"]+ "</td>" +
+						"<td><input id='vck' name='ck' type ='checkbox'></td>" +
 						"</tr>";
 				$('#orderseqs').append(tr);				
 				nodeflag = data["cp_orders"][i]["node_name"];							
@@ -132,13 +138,130 @@ $('#checkorders').click(function() {
 	});
 });
 
+//查看路径外医嘱引用情况
+$('#checkoutorders').click(function() {
+	$('#out-order-seqs').empty();
+	$.ajax({
+		url : '../PdcaServlet?ran=' + Math.random(),
+		data : {
+			op : "B",
+			cp_id:$('#current_cp_id').text()
+		    
+		},
+		dataType : 'json',
+		error : function() {
+
+		},
+		success : function(data) {
+			var nodeflag = '-';
+			var parientid = 0;
+			for ( var i = 0; i < data["cp_orders"].length; i++) {
+				if (nodeflag != data["cp_orders"][i]["node_name"]) {
+					parientid++;
+					tr = "<tr data-tt-id='"+ parientid+ "' style='font-size:12px,font-family:Helvetica, Arial, sans-serif' >" +
+							"<td><span class='folder'>"+ data["cp_orders"][i]["node_name"]+ "</span></td>" +
+							"<td>--</td>" +
+							"<td>--</td>" +
+							"<td>--</td>" +
+							//"<td>--</td>" +
+							"<td>--</td>" +
+						"</tr>";
+					$('#out-order-seqs').append(tr);
+				}										
+				tr = "<tr onclick=setCheck(this); data-tt-id='"+ parientid+ '-'+ i+ "' data-tt-parent-id='"+ parientid +"' style='font-size:12px,font-family:Helvetica, Arial, sans-serif'>" +
+						"<td><span class='file'>"+ data["cp_orders"][i]["CP_NODE_ORDER_TEXT"]+ "</span></td>" +
+						"<td name='order_no'>"+ data["cp_orders"][i]["order_no"]+ "</td>" +
+						"<td name='MYCOUNT' style='display: none'>"+ data["cp_orders"][i]["MYCOUNT"]+ "</td>" +
+						"<td name='SUMCOUNT' style='display: none'>"+ data["cp_orders"][i]["SUMCOUNT"]+ "</td>" +
+						"<td name='LV' style='display: none'>"+ data["cp_orders"][i]["LV"]+ "</td>" +
+						"<td name='HOSPITAL_ID' style='display: none'>"+ data["cp_orders"][i]["HOSPITAL_ID"]+ "</td>" +
+						"<td name='CP_ID' style='display: none'>"+ data["cp_orders"][i]["CP_ID"]+ "</td>" +
+						"<td name='CP_NODE_ID' style='display: none'>"+ data["cp_orders"][i]["CP_NODE_ID"]+ "</td>" +
+						"<td name='CP_NODE_ORDER_ID' style='display: none'>"+ data["cp_orders"][i]["CP_NODE_ORDER_ID"]+ "</td>" +
+						"<td name='CP_NODE_ORDER_ITEM_ID' style='display: none'>"+ data["cp_orders"][i]["CP_NODE_ORDER_ITEM_ID"]+ "</td>" +
+						"<td name='CP_NODE_ORDER_TEXT' style='display: none'>"+ data["cp_orders"][i]["CP_NODE_ORDER_TEXT"]+ "</td>" +
+						"<td name='ORDER_NO' style='display: none'>"+ data["cp_orders"][i]["ORDER_NO"]+ "</td>" +
+						"<td name='ORDER_TYPE' style='display: none'>"+ data["cp_orders"][i]["ORDER_TYPE"]+ "</td>" +
+						"<td name='NEED_ITEM' style='display: none'>"+ data["cp_orders"][i]["NEED_ITEM"]+ "</td>" +
+						"<td name='VERIFY_DATE' style='display: none'>"+ data["cp_orders"][i]["VERIFY_DATE"]+ "</td>" +
+						"<td name='VERIFY_CODE' style='display: none'>"+ data["cp_orders"][i]["VERIFY_CODE"]+ "</td>" +
+						"<td name='VERIFY_NAME' style='display: none'>"+ data["cp_orders"][i]["VERIFY_NAME"]+ "</td>" +
+						"<td name='SYS_IS_DEL' style='display: none'>"+ data["cp_orders"][i]["SYS_IS_DEL"]+ "</td>" +
+						"<td name='SYS_LAST_UPDATE' style='display: none'>"+ data["cp_orders"][i]["SYS_LAST_UPDATE"]+ "</td>" +
+						"<td name='AUTO_ITEM' style='display: none'>"+ data["cp_orders"][i]["AUTO_ITEM"]+ "</td>" +
+						"<td name='ORDER_TYPE_NAME' style='display: none'>"+ data["cp_orders"][i]["ORDER_TYPE_NAME"]+ "</td>" +
+						"<td name='ORDER_KIND' style='display: none'>"+ data["cp_orders"][i]["ORDER_KIND"]+ "</td>" +
+						"<td name='MEASURE' style='display: none'>"+ data["cp_orders"][i]["MEASURE"]+ "</td>" +
+						"<td name='FREQUENCY' style='display: none'>"+ data["cp_orders"][i]["FREQUENCY"]+ "</td>" +
+						"<td name='WAY' style='display: none'>"+ data["cp_orders"][i]["WAY"]+ "</td>" +
+						"<td name='DOSAGE' style='display: none'>"+ data["cp_orders"][i]["DOSAGE"]+ "</td>" +
+						"<td name='DOSAGE_UNITS' style='display: none'>"+ data["cp_orders"][i]["DOSAGE_UNITS"]+ "</td>" +
+						"<td name='ADMINISTRATION' style='display: none'>"+ data["cp_orders"][i]["ADMINISTRATION"]+ "</td>" +
+						"<td name='DURATION' style='display: none'>"+ data["cp_orders"][i]["DURATION"]+ "</td>" +
+						"<td name='DURATION_UNITS' style='display: none'>"+ data["cp_orders"][i]["DURATION_UNITS"]+ "</td>" +
+						"<td name='FREQ_COUNTER' style='display: none'>"+ data["cp_orders"][i]["FREQ_COUNTER"]+ "</td>" +
+						"<td name='FREQ_INTERVAL' style='display: none'>"+ data["cp_orders"][i]["FREQ_INTERVAL"]+ "</td>" +
+						"<td name='FREQ_INTERVAL_UNIT' style='display: none'>"+ data["cp_orders"][i]["FREQ_INTERVAL_UNIT"]+ "</td>" +
+						"<td name='FREQ_DETAIL' style='display: none'>"+ data["cp_orders"][i]["FREQ_DETAIL"]+ "</td>" +
+						"<td name='ORDERING_DEPT' style='display: none'>"+ data["cp_orders"][i]["ORDERING_DEPT"]+ "</td>" +
+						"<td name='DOCTOR' style='display: none'>"+ data["cp_orders"][i]["DOCTOR"]+ "</td>" +
+						"<td name='NURSE' style='display: none'>"+ data["cp_orders"][i]["NURSE"]+ "</td>" +
+						"<td name='ORDER_STATUS' style='display: none'>"+ data["cp_orders"][i]["ORDER_STATUS"]+ "</td>" +
+						"<td name='PROCESSING_DATE_TIME' style='display: none'>"+ data["cp_orders"][i]["PROCESSING_DATE_TIME"]+ "</td>" +
+						"<td name='BILLING_ATTR' style='display: none'>"+ data["cp_orders"][i]["BILLING_ATTR"]+ "</td>" +
+						"<td name='ORDER_PRINT_INDICATOR' style='display: none'>"+ data["cp_orders"][i]["ORDER_PRINT_INDICATOR"]+ "</td>" +
+						"<td name='START_DATE_TIME' style='display: none'>"+ data["cp_orders"][i]["START_DATE_TIME"]+ "</td>" +
+						"<td name='DRUG_BILLING_ATTR' style='display: none'>"+ data["cp_orders"][i]["DRUG_BILLING_ATTR"]+ "</td>" +
+						"<td name='ORDER_INSURANCE_TYPE' style='display: none'>"+ data["cp_orders"][i]["ORDER_INSURANCE_TYPE"]+ "</td>" +
+						"<td name='LOCAL_ORDER_NO' style='display: none'>"+ data["cp_orders"][i]["LOCAL_ORDER_NO"]+ "</td>" +
+						"<td name='LOCAL_ORDER_TEXT' style='display: none'>"+ data["cp_orders"][i]["LOCAL_ORDER_TEXT"]+ "</td>" +
+						"<td name='ORDER_ITEM_SET_ID' style='display: none'>"+ data["cp_orders"][i]["ORDER_ITEM_SET_ID"]+ "</td>" +
+						"<td name='ORDER_CLASS' style='display: none'>"+ data["cp_orders"][i]["ORDER_CLASS"]+ "</td>" +
+						"<td name='REPEAT_INDICATOR' style='display: none'>"+ data["cp_orders"][i]["REPEAT_INDICATOR"]+ "</td>" +
+						"<td name='IS_ANTIBIOTIC' style='display: none'>"+ data["cp_orders"][i]["IS_ANTIBIOTIC"]+ "</td>" +
+						"<td name='MEASURE_UNITS' style='display: none'>"+ data["cp_orders"][i]["MEASURE_UNITS"]+ "</td>" +
+						"<td name='CP_NODE_CLASS_ID' style='display: none'>"+ data["cp_orders"][i]["CP_NODE_CLASS_ID"]+ "</td>" +
+						"<td name='EFFECT_FLAG' style='display: none'>"+ data["cp_orders"][i]["EFFECT_FLAG"]+ "</td>" +
+						"<td name='SPECIFICATION' style='display: none'>"+ data["cp_orders"][i]["SPECIFICATION"]+ "</td>" +
+						"<td name='UNIT_ID' style='display: none'>"+ data["cp_orders"][i]["UNIT_ID"]+ "</td>" +
+						"<td name='MARK' style='display: none'>"+ data["cp_orders"][i]["MARK"]+ "</td>" +
+						"<td name='DEFAULT_ITEM' style='display: none'>"+ data["cp_orders"][i]["DEFAULT_ITEM"]+ "</td>" +
+						"<td name='DRUG_ID' style='display: none'>"+ data["cp_orders"][i]["DRUG_ID"]+ "</td>" +
+						"<td><input id='OUTCK-ID' name='OUTCK' type ='checkbox'></td>" +
+						"</tr>";
+				$('#out-order-seqs').append(tr);				
+				nodeflag = data["cp_orders"][i]["node_name"];							
+			}
+			$("#out-orders").treetable({
+				expandable : true
+			});
+			// Highlight selected row
+			$("#out-orders tbody tr").mousedown(
+				function() {
+					$("tr.selected").removeClass(
+							"selected");
+					$(this).addClass("selected");
+				});
+		}
+	});
+});
+
+function setCheck(obj){
+	//alert(obj.lastChild.children.ck.checked);
+	 if ( obj.lastChild.children.ck.checked==false) {
+		 obj.lastChild.children.ck.checked= true;
+     } else {
+    	 obj.lastChild.children.ck.checked= false;;
+     }
+}
+
 //查看路径下节点变异趋势
 $('#nodevariation').click(function() {
 	$.ajax({
 		url : '../PdcaServlet?ran=' + Math.random(),
 		data : {
 			op : "9",
-			master_id:$('#master_id').text()
+			cp_id:$('#current_cp_id').text()
 		    
 		},
 		dataType : 'json',
@@ -255,6 +378,8 @@ $('#thinorders').click(function() {
 		success : function(data) {
 			var nodeflag = '-';
 			var parientid = 0;
+			var cp_code =data["cp_orders"][0]["cp_code"];
+			$('#newcpcode').text(cp_code);
 			for ( var i = 0; i < data["cp_orders"].length; i++) {
 				if (nodeflag != data["cp_orders"][i]["node_name"]) {
 					parientid++;

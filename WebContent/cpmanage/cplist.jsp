@@ -193,6 +193,7 @@ th{
 			        		%>
 			        									
 							<input type="button" id="upGradeCP" value="版本升级"/>
+							<input type="button" id="pdca" value="持续改进"/>
 							</td>
 							<td>
 							<select name="selectType" id="selectType">

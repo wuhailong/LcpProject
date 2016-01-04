@@ -19,15 +19,15 @@
 			<table class="bordered" id="optionContainer">
 				<thead>
 					<tr style="font-size:12px,font-family:Helvetica, Arial, sans-serif">
-						<th >主路径ID</th>
-						<th >路径ID</th>
-						<th font-size:12px;>路径名称</th>
+						<th style="display: none">主路径ID</th>
+						<th width="12%">路径ID</th>
+						<th width="20%">路径名称</th>
 						<th style="display: none">路径编码</th>
-						<th>变异个数</th>
-						<th>完成个数</th>
-						<th>变异率</th>
-						<th>科室</th>
-						
+						<th width="12%">变异个数</th>
+						<th width="12%">完成个数</th>
+						<th width="12%">变异率</th>
+						<th width="12%">科室</th>
+						<th width="10%">状态</th>
 					</tr>
 				</thead>
 				<tbody id="cps"></tbody>
@@ -35,12 +35,12 @@
 		</div>
 		<div id="rightbar">
 			<div  class="mytopbar" id="mybtn">
-				<input type="button" class='checkOrder' value="查看医嘱执行率" /> 
-				<input type="button" class='checkNode' value="查看路径节点变异" />
-				<input type="button" onclick="window.location.href='../cpmanage/cplist.jsp';" value="修改临床路径" />
-				
-				<input type="button" class='forwardpdca'  value="打开新窗体" />
-				
+			<form>
+				<input type="radio" name="identity" class='checkOrder' value="" />查看医嘱执行率 
+				<input type="radio" name="identity" class='checkNode' value="" />查看路径节点变异
+				<!-- <input type="button" onclick="window.location.href='../cpmanage/cplist.jsp';" value="修改临床路径" /> -->
+				<input  type="radio" name="identity" checked="checked" class='forwardpdca'  value="" />持续改进
+			</form>
 			</div>
 			<div id="mygraph"></div>
 			<div id="myorders">

@@ -457,6 +457,7 @@ $(document).ready(function(){
 	}); */
 	//编辑路径按钮
 	$("#editCP").click(function(){
+		//alert(cp_id_quanju);
 		if(cp_id_quanju!=""&&cp_id_quanju>10000){
 			$.ajax({	   
 				url : "../servlet/managecp",
@@ -485,6 +486,15 @@ $(document).ready(function(){
 			alert("请选择一条进行编辑!");
 		}else if(cp_id_quanju<10000){
 			alert("该路径禁止编辑!");
+		}
+	});
+	
+	//持续改进
+	$("#pdca").click(function(){
+		if(cp_id_quanju==""){
+			alert("请选择一条进行进行改进分析!");
+		}else{
+		window.open('../cppdca/index.jsp?master_id:'+cp_id_quanju);	
 		}
 	});
 	

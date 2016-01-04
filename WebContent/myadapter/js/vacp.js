@@ -1,38 +1,8 @@
 var eventFlag = 1;
 window.onload = function() {
-	/*$("#mysearch").click(function() {
-		$('#cps').empty();
-		//alert($("#myfilterstr").val());
-		$.ajax({
-			url : '../PdcaServlet?ran=' + Math.random(),
-			data : {
-				op : "1",
-				dept_name:$("#dept_name").val()
-			},
-			type: "post", 
-			dataType : 'json',
-			error : function() {
-
-			},
-			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
-			success : function(data) {
-				for ( var i = 0; i < data["cp_va"].length; i++) {
-					var tr = "<tr onclick=getInfoByFlag(); id=option" + i
-							+ " style='font-size:12px,font-family:Helvetica, Arial, sans-serif'><td >"
-							+ data["cp_va"][i]["cp_id"] + "</td><td>"
-							+ data["cp_va"][i]["cp_name"] + "</td><td style='display: none'>"
-							+ data["cp_va"][i]["cp_code"] + "</td><td>"
-							+ data["cp_va"][i]["fcount"] + "</td><td>"
-							+ data["cp_va"][i]["tcount"] + "</td><td>"
-							+ data["cp_va"][i]["va"] + "</td><td>"
-							+ data["cp_va"][i]["dept_name"] + "</td></tr>";
-					$('#cps').append(tr);
-				}
-			}
-		})
-	});
-	*/
+	
 	$(".checkOrder").click(function() {
+		$("input:radio[name='identity']").eq(0).attr("checked",true);
 		eventFlag=1;
 		$("#mygraph").animate({
 			height : "0px"
@@ -59,7 +29,7 @@ window.onload = function() {
 	});
 	
 	$(".forwardpdca").click(function() {
-
+		$("input:radio[name='identity']").eq(2).attr("checked",true);
 		eventFlag=0;
 		$("#myorders").animate({
 			height : "0px"
@@ -85,6 +55,7 @@ window.onload = function() {
 	});
 	
 	$(".checkNode").click(function() {
+		$("input:radio[name='identity']").eq(1).attr("checked",true);
 		eventFlag=0;
 		$("#myorders").animate({
 			height : "0px"
@@ -122,18 +93,17 @@ window.onload = function() {
 		},
 		success : function(data) {
 			for ( var i = 0; i < data["cp_va"].length; i++) {
-				var tr = "<tr onclick=getVaNode(); id=option" + i
-						+ " style='font-size:12px,font-family:Helvetica, Arial, sans-serif'><td >"
-						+ data["cp_va"][i]["master_id"] + "</td><td>"
-						+ data["cp_va"][i]["cp_id"] + "</td><td>"
-						+ data["cp_va"][i]["cp_name"] + "</td><td style='display: none'>"
-						+ data["cp_va"][i]["cp_code"] + "</td><td>"
-						+ data["cp_va"][i]["fcount"] + "</td><td>"
-						+ data["cp_va"][i]["tcount"] + "</td><td>"
-						+ data["cp_va"][i]["va"] + "</td><td>"
-						+ data["cp_va"][i]["dept_name"] + "</td>" +
-						+ '...' + "</td>" +
-								"</tr>";
+				var tr = "<tr onclick=forwardPdca(); id=option; style='font-size:12px,font-family:Helvetica, Arial, sans-serif'>" +
+							"<td style='display: none'>"+ data["cp_va"][i]["master_id"] + "</td>" +
+							"<td>"+ data["cp_va"][i]["cp_id"] + "</td>" +
+							"<td>"+ data["cp_va"][i]["cp_name"] + "</td>" +
+							"<td style='display: none'>"+ data["cp_va"][i]["cp_code"] + "</td>" +
+							"<td>"+ data["cp_va"][i]["fcount"] + "</td>" +
+							"<td>"+ data["cp_va"][i]["tcount"] + "</td>" +
+							"<td>"+ data["cp_va"][i]["va"] + "</td>" +
+							"<td>"+ data["cp_va"][i]["dept_name"] + "</td>" +
+							"<td>"+data["cp_va"][i]["cp_status"]+"</td>" +
+						"</tr>";
 				$('#cps').append(tr);
 			}
 			var tr = "<tr style='display: none'><td ></td><td></td><td ></td><td></td><td></td><td></td><td></td></tr>";
@@ -178,7 +148,7 @@ function getOrdersSeqs() {
 	if (rows.length > 0) {
 		for ( var i = 0; i < rows.length; i++) {
 			(function(i) {				
-				var cp_id = rows[i].cells[0].innerText;
+				var cp_id = rows[i].cells[1].innerText;
 				var cp_name = rows[i].cells[1].innerText;
 				var obj = rows[i];
 				obj.onclick = function() {
@@ -194,7 +164,7 @@ function getOrdersSeqs() {
 					{
 						url : '../PdcaServlet?ran=' + Math.random(),
 						data : {
-							op : "4",
+							op : "8",
 							cp_id : cp_id
 						},
 						dataType : 'json',
@@ -260,7 +230,7 @@ function getVaNode() {
 				var cp_name = rows[i].cells[2].innerText;
 				var obj = rows[i];
 				obj.onclick = function() {
-					alert(cp_id);
+					//alert(cp_id);
 					$("#cp_id").text(cp_id);
 					for ( var j = 0; j < rows.length; j++) {
 						if (rows[j] == this) { // 判断是不是当前选择的行
