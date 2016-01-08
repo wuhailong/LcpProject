@@ -85,6 +85,11 @@
 					<td height="24"><div align="center">3</div></td>
 					<td><div align="center"><a href="#" onClick="window.open('cpstatistics.jsp?height=490&rpt=cpstatistics','病种信息统计','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >病种信息统计</a></div></td>
 				</tr>
+				<!-- 2015-01-08 吴海龙 新增皕节报表:科室路径执行情况J -->
+				<tr bgcolor="#FFFFFF" class="STYLE19"  >
+					<td height="24"><div align="center">3-1</div></td>
+					<td><div align="center"><a href="#" onClick="window.open('cpstatistics2.jsp?height=490&rpt=cpstatistics2','临床路径各病种住院比J','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >临床路径各病种住院比J</a></div></td>
+				</tr>
 				<tr bgcolor="#FFFFFF" class="STYLE19"  >
 					<td height="24"><div align="center">4</div></td>
 					<td><div align="center"><a href="#" onClick="window.open('statementsKS.jsp?height=490&rpt=dept_order_rate&hospital_id=<%=hospital_id%>','科室医嘱执行率','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室医嘱执行率</a></div></td>
@@ -96,6 +101,11 @@
                 <tr bgcolor="#FFFFFF" class="STYLE19"  >
 					<td height="24"><div align="center">6</div></td>
 					<td><div align="center"><a href="#" onClick="window.open('executeDept1.jsp?height=490&rpt=executeDept1&hospital_id=<%=hospital_id%>','科室路径执行情况','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室路径执行情况</a></div></td>
+			    </tr>
+			    <!-- 2015-01-08 吴海龙 新增皕节报表:科室路径执行情况J -->
+			     <tr bgcolor="#FFFFFF" class="STYLE19"  >
+					<td height="24"><div align="center">6-1</div></td>
+					<td><div align="center"><a href="#" onClick="window.open('executeDept2.jsp?height=490&rpt=executeDept2&hospital_id=<%=hospital_id%>','科室路径执行情况J','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室路径执行情况J</a></div></td>
 			    </tr>
 			    <tr bgcolor="#FFFFFF" class="STYLE19"  >
 					<td height="24"><div align="center">7</div></td>

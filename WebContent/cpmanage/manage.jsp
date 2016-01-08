@@ -450,7 +450,7 @@ body {
       <%if(type.equals("upCP") || type.equals("jfCP")){ %>
       <tr>
         <td height="32" align="right">路径名称：</td>
-        <td><input type="text" name="txt112" id="cp_name"  onkeyup="document.getElementById('cp_pym').value = getCharsCode(this.value);" readonly="readonly"/>*
+        <td><input type="text" name="txt112" id="cp_name"  onkeyup="document.getElementById('cp_pym').value = getCharsCode(this.value);" />*
         </td>
       </tr>
       <%}else{ %>
@@ -483,7 +483,7 @@ body {
       </tr>
       <tr>
         <td height="29" align="right">科室名称：</td>
-        <td><input type="text" name="txt13" id="dept_name_input"  readonly="readonly"/>
+        <td><input type="text" name="txt13" id="dept_name_input"  />
          <input type="hidden"  value="value" id="dept_code_input" /> 
      </td>
       </tr>
@@ -493,7 +493,7 @@ body {
       </tr>
       <tr>
         <td height="29" align="right">医保定额：</td>
-        <td><input name="min_day3" type="text" id="cp_health_care_quota" /></td>
+        <td><input name="min_day3" type="text" id="cp_health_care_quota" />*</td>
       </tr>
   </table>
 </div>

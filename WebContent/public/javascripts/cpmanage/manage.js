@@ -227,6 +227,7 @@ function selectAjax(cp_id){
 	
 }
 $("#edit_cp").click(function(){//编辑路径
+	//alert('123');
 	$("#cp_name").val($("#cp_name_input").val());
 	$("#min_day").val($("#cp_days_min").val());
 	$("#max_day").val($("#cp_days_max").val());
@@ -244,6 +245,11 @@ $("#edit_cp").click(function(){//编辑路径
 		open:function(){$("#cp_name")[0].focus();},
 		buttons: {
 			"确定": function() {
+				var ybde = $("#cp_health_care_quota").val();
+				if(""==ybde){
+					alert('医保定额未填写');
+					return;
+				}
 				$.ajax({	   
 					url : "../servlet/managecp",
 					type : 'POST',

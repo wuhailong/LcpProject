@@ -156,24 +156,25 @@ $('#checkoutorders').click(function() {
 			var nodeflag = '-';
 			var parientid = 0;
 			for ( var i = 0; i < data["cp_orders"].length; i++) {
-				if (nodeflag != data["cp_orders"][i]["node_name"]) {
+				if (nodeflag != data["cp_orders"][i]["NODE_NAME"]) {
 					parientid++;
 					tr = "<tr data-tt-id='"+ parientid+ "' style='font-size:12px,font-family:Helvetica, Arial, sans-serif' >" +
-							"<td><span class='folder'>"+ data["cp_orders"][i]["node_name"]+ "</span></td>" +
+							"<td><span class='folder'>"+ data["cp_orders"][i]["NODE_NAME"]+ "</span></td>" +
 							"<td>--</td>" +
 							"<td>--</td>" +
 							"<td>--</td>" +
-							//"<td>--</td>" +
+							"<td>--</td>" +
 							"<td>--</td>" +
 						"</tr>";
 					$('#out-order-seqs').append(tr);
 				}										
 				tr = "<tr onclick=setCheck(this); data-tt-id='"+ parientid+ '-'+ i+ "' data-tt-parent-id='"+ parientid +"' style='font-size:12px,font-family:Helvetica, Arial, sans-serif'>" +
 						"<td><span class='file'>"+ data["cp_orders"][i]["CP_NODE_ORDER_TEXT"]+ "</span></td>" +
-						"<td name='order_no'>"+ data["cp_orders"][i]["order_no"]+ "</td>" +
-						"<td name='MYCOUNT' style='display: none'>"+ data["cp_orders"][i]["MYCOUNT"]+ "</td>" +
+						"<td name='order_no'>"+ data["cp_orders"][i]["ORDER_NO"]+ "</td>" +
+						"<td name='FREQUENCY'>"+ data["cp_orders"][i]["FREQUENCY"]+ "</td>" +
+						"<td name='MYCOUNT' >"+ data["cp_orders"][i]["MYCOUNT"]+ "</td>" +
 						"<td name='SUMCOUNT' style='display: none'>"+ data["cp_orders"][i]["SUMCOUNT"]+ "</td>" +
-						"<td name='LV' style='display: none'>"+ data["cp_orders"][i]["LV"]+ "</td>" +
+						"<td name='LV' >"+ data["cp_orders"][i]["LV"]+ "</td>" +
 						"<td name='HOSPITAL_ID' style='display: none'>"+ data["cp_orders"][i]["HOSPITAL_ID"]+ "</td>" +
 						"<td name='CP_ID' style='display: none'>"+ data["cp_orders"][i]["CP_ID"]+ "</td>" +
 						"<td name='CP_NODE_ID' style='display: none'>"+ data["cp_orders"][i]["CP_NODE_ID"]+ "</td>" +
@@ -192,7 +193,7 @@ $('#checkoutorders').click(function() {
 						"<td name='ORDER_TYPE_NAME' style='display: none'>"+ data["cp_orders"][i]["ORDER_TYPE_NAME"]+ "</td>" +
 						"<td name='ORDER_KIND' style='display: none'>"+ data["cp_orders"][i]["ORDER_KIND"]+ "</td>" +
 						"<td name='MEASURE' style='display: none'>"+ data["cp_orders"][i]["MEASURE"]+ "</td>" +
-						"<td name='FREQUENCY' style='display: none'>"+ data["cp_orders"][i]["FREQUENCY"]+ "</td>" +
+						
 						"<td name='WAY' style='display: none'>"+ data["cp_orders"][i]["WAY"]+ "</td>" +
 						"<td name='DOSAGE' style='display: none'>"+ data["cp_orders"][i]["DOSAGE"]+ "</td>" +
 						"<td name='DOSAGE_UNITS' style='display: none'>"+ data["cp_orders"][i]["DOSAGE_UNITS"]+ "</td>" +
@@ -230,7 +231,7 @@ $('#checkoutorders').click(function() {
 						"<td><input id='OUTCK-ID' name='OUTCK' type ='checkbox'></td>" +
 						"</tr>";
 				$('#out-order-seqs').append(tr);				
-				nodeflag = data["cp_orders"][i]["node_name"];							
+				nodeflag = data["cp_orders"][i]["NODE_NAME"];							
 			}
 			$("#out-orders").treetable({
 				expandable : true
@@ -376,12 +377,13 @@ $('#thinorders').click(function() {
 
 		},
 		success : function(data) {
+			$('#tips').empty();
 			var nodeflag = '-';
 			var parientid = 0;
 			var cp_code =data["cp_orders"][0]["cp_code"];
 			$('#newcpcode').text(cp_code);
 			for ( var i = 0; i < data["cp_orders"].length; i++) {
-				if (nodeflag != data["cp_orders"][i]["node_name"]) {
+				if (nodeflag != data["cp_orders"][i]["NODE_NAME"]) {
 					parientid++;
 					tr = "<tr data-tt-id='"+ parientid+ "' style='font-size:12px,font-family:Helvetica, Arial, sans-serif' >" +
 							"<td><span class='folder'>"+ data["cp_orders"][i]["node_name"]+ "</span></td>" +
@@ -403,7 +405,7 @@ $('#thinorders').click(function() {
 						
 						"</tr>";
 				$('#clearedorders').append(tr);				
-				nodeflag = data["cp_orders"][i]["node_name"];							
+				nodeflag = data["cp_orders"][i]["NODE_NAME"];							
 			}
 			$("#bornedcp").treetable({
 				expandable : true

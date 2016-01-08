@@ -195,28 +195,7 @@
 		<!--
 		Start Main Features
 		==================================== -->
-		<section id="main-features">
-			<div class="container">
-				<div class="row">
-					
-					<!-- features item -->
-					<div id="features">
-						<div class="item">
-							
-							<div class="features-item">
-								
-								
-								
-								
-							</div>
-						</div>
-					
-					</div>
-					<!-- /features item -->
-					
-				</div> 		<!-- End row -->
-			</div>   	<!-- End container -->
-		</section>   <!-- End section -->
+		
 		
 		<!--
 		Start Counter Section
@@ -363,7 +342,17 @@
 			</div>   	<!-- End container -->
 			
 		</section>   <!-- End section -->
-		
+			<section id="team-skills" class="parallax-section">
+			<div class="container">
+				<div class="row wow fadeInDown" data-wow-duration="500ms">
+				
+					<!-- section title -->
+					<div class="text-center">
+					</div>
+					<!-- /section title -->
+				</div>  		<!-- End row -->
+			</div>   	<!-- End container -->
+		</section>   <!-- End section -->
 		
 		<!-- Start Portfolio Section
 		=========================================== -->
@@ -406,7 +395,7 @@
 				</table>
 			</div>
 			
-		
+		</section>   <!-- End section -->
 		<!-- Start Team Skills
 		=========================================== -->
 		
@@ -425,7 +414,7 @@
 				</div>  		<!-- End row -->
 			</div>   	<!-- End container -->
 		</section>   <!-- End section -->
-		</section>   <!-- End section -->
+		
 		
 			<section id="sectionoutorders">
 			<div class="container">
@@ -450,18 +439,31 @@
 				<table class="bordered" id="out-orders">
 					<thead>
 						<tr style='font-size:12px,font-family:Helvetica, Arial, sans-serif'>
-							<th width="50%">医嘱名称</th>
+							<th width="40%">医嘱名称</th>
 							<th width="20%">医嘱编码</th>
-							<th width="15%">引用次数</th>
-							<th width="11%">引用率</th>
+							<th width="10%">频次</th>
+							<th width="10%">引用次数</th>
+							<th width="10%">引用率</th>
 							<!--  <th width="5%">总数</th>-->
-							<th width="5%">##</th>
+							<th width="10%">##</th>
 						</tr>
 					</thead>
 					<tbody id='out-order-seqs'></tbody>
 				</table>
 			</div>
 			
+		</section>   <!-- End section -->
+			<section id="team-skills" class="parallax-section">
+			<div class="container">
+				<div class="row wow fadeInDown" data-wow-duration="500ms">
+				
+					<!-- section title -->
+					<div class="text-center">
+					<a id="thinorders" href="#pricing" class="btn btn-transparent" >高频引用医嘱增加</a>												
+					</div>
+					<!-- /section title -->
+				</div>  		<!-- End row -->
+			</div>   	<!-- End container -->
 		</section>   <!-- End section -->
 		<section id="contact-us">
 			<div class="container">
@@ -490,6 +492,17 @@
 			<!-- /Google Map -->
 			
 		</section> <!-- end section -->
+		<section id="team-skills" class="parallax-section">
+			<div class="container">
+				<div class="row wow fadeInDown" data-wow-duration="500ms">
+				
+					<!-- section title -->
+					<div class="text-center">
+					</div>
+					<!-- /section title -->
+				</div>  		<!-- End row -->
+			</div>   	<!-- End container -->
+		</section>   <!-- End section -->
 		<!-- Start Our Team
 		=========================================== -->
 	
@@ -497,9 +510,6 @@
 		=========================================== -->
 
 	<section id="pricing" class="bg-one">
-		<div class="container">
-			<div class="row">
-
 				<!-- section title -->
 				<div class="title text-center wow fadeInDown"
 					data-wow-duration="500ms">
@@ -526,12 +536,6 @@
 						<tbody id='clearedorders'></tbody>
 					</table>
 				</div>
-
-
-			</div>
-			<!-- End row -->
-		</div>
-		<!-- End container -->
 	</section>
 	<!-- End section -->
 
@@ -551,7 +555,7 @@
 				<div class="row">
 
 					<!-- section title -->
-					<div class="title text-center wow fadeInDown">
+					<div id='tips' class="title text-center wow fadeInDown">
 						<h5>  <span class="color">路径生成过程复杂，耗时较长请耐心等待。</span></h5>
 					</div>
 					<!-- /section title -->

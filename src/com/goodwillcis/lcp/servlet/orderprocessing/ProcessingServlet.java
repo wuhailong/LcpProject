@@ -123,8 +123,8 @@ public class ProcessingServlet extends HttpServlet {
 			JSONException {
 		riqi=sdf.format(new Date());
 		
-
-		FileWriter fileWriter = new FileWriter("e:\\log\\kang-rizhi/" + riqi
+		//2015-01-08 吴海龙 更换服务器，新服务器无e盘日志记录改为d盘
+		FileWriter fileWriter = new FileWriter("d:\\log\\kang-rizhi/" + riqi
 				+ "(下医嘱).txt", true);
 		fileWriter.write("\r\n\r\n开始调用processing方法———————————————————————————————————————————————\r\n");
 

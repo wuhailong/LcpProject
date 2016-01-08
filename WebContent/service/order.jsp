@@ -170,7 +170,7 @@
 		mnwkOrderLink=LcpUtil.getConfigValue(nullMNWKOrder);
 	}
 	//儿科
-	if(patientArea.equals("1050000")){
+	if(patientArea.equals("1050000")||patientArea.equals("1050001")||patientArea.equals("1050002")){//2016-01-08 吴海龙 增加儿一科、儿二科
 		String ekOrder = PropertiesUtil.get(PropertiesUtil.EK_ORDER_URL);
 		ekOrderLink2 = LcpUtil.getConfigValue(ekOrder);
 		String nullEKOrder = PropertiesUtil.get(PropertiesUtil.EK_ORDER_URL_NULL);
@@ -470,7 +470,7 @@
 						" <script language='javascript' type='text/javascript'>           window.location.href='"+mnwkOrderLink1+"';     </script>"
 						); 
 				
-			}else if(patientArea.equals("1050000")) {//儿科
+			}else if(patientArea.equals("1050000")||patientArea.equals("1050001")||patientArea.equals("1050002")) {//儿科2016-01-08 吴海龙 增加儿一科、儿二科
 				String ekOrderLink1 = ekOrderLink + "?inpatientNo="+patientID+"&admissTimes="+admissTimes+"&physicianCode="+doctorNo+"&deptCode="+patientArea+"&doctorQX="+doctorQX+"&status=1"+"&babyStatus="+babyStatus;
 				response.getWriter().print(
 						" <script language='javascript' type='text/javascript'>           window.location.href='"+ekOrderLink1+"';     </script>"
@@ -1893,7 +1893,7 @@ $("#div1").dialog({
 		openPostWindow('<%=ykOrderLink2%>',json,'order');
 	}else if(patientArea=="1020300"){
 		openPostWindow('<%=mnwkOrderLink2%>',json,'order');
-	}else if(patientArea=="1050000"){
+	}else if(patientArea=="1050000"||patientArea=="1050001"||patientArea=="1050002"){//2016-01-08 吴海龙 增加儿一科、儿二科
 		openPostWindow('<%=ekOrderLink2%>',json,'order');
 	}else if(patientArea=="1100000"){
 		openPostWindow('<%=ebhkOrderLink2%>',json,'order');

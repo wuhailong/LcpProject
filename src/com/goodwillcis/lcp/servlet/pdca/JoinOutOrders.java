@@ -131,6 +131,10 @@ public class JoinOutOrders {
 		try {
 			String _strJson = "{\"cp_orders\":[";
 			while (_rsData.next()) {
+				String NODE_NAME= _rsData.getString("NODE_NAME");//
+				int MYCOUNT= _rsData.getInt("MYCOUNT");//
+				int SUMCOUNT= _rsData.getInt("SUMCOUNT");//
+				double LV= _rsData.getDouble("LV");//
 				int HOSPITAL_ID= _rsData.getInt("HOSPITAL_ID");//	NUMBER(5)	N			医院编号
 				int CP_ID= _rsData.getInt("CP_ID");//	NUMBER(5)	N			路径编号
 				int CP_NODE_ID= _rsData.getInt("CP_NODE_ID");//	NUMBER(5)	N			路径节点编号
@@ -186,6 +190,10 @@ public class JoinOutOrders {
 				String DRUG_ID= _rsData.getString("DRUG_ID");//	VARCHAR2(20)	Y			药品编码
 
 				_strJson += "{\"HOSPITAL_ID\":"+HOSPITAL_ID+"," +
+						"\"NODE_NAME\":\""+NODE_NAME+"\"," +
+						"\"MYCOUNT\":\""+MYCOUNT+"\"," +
+						"\"SUMCOUNT\":\""+SUMCOUNT+"\"," +
+						"\"LV\":\""+LV+"\"," +
 						"\"CP_ID\":"+CP_ID+"," +
 						"\"CP_NODE_ID\":\""+CP_NODE_ID+"\"," +
 						"\"CP_NODE_ORDER_ID\":\""+CP_NODE_ORDER_ID+"\"," +

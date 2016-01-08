@@ -424,7 +424,7 @@ public class LcpMaster implements ICloneCp {
 				// --
 				_objLcpMaster.getCP_MASTER_ID(),
 				_objLcpMaster.GetNewVersion(),
-				_objLcpMaster.getCP_STATUS(),
+				2,
 				// --
 				_objLcpMaster.getCP_CREATE_ID(),
 				_objLcpMaster.getCP_CREATE_NAME(),
