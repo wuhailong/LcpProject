@@ -23,6 +23,7 @@
 	<link rel="stylesheet" href="../public/plugins/FusionCharts/style.css" type="text/css" />
 	<link rel="stylesheet" href="../public/styles/demos.css">  
 	<script type="text/javascript" src="../public/plugins/jquery/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="../public/cpmanage/report-manage.js"></script>
 	<script type="text/javascript">
 		function update(){
 			$.post("../servlet/managecp",{op : "updateExecute"},function(){
@@ -44,7 +45,7 @@
         		</td>
       		</tr>
     	</table>
-     <table width="100%" id="tcp" class="users" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
+     <table id="cp_report" width="100%" id="tcp" class="users" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
       	<tr height="20">
 	        <td width="17%"  bgcolor="d3eaef" class="STYLE10"><div align="center"><span class="STYLE10">报表编号</span></div></td>
 	        <td width="83%" bgcolor="d3eaef" class="STYLE10"><div align="center"><span class="STYLE10">报表名称</span></div></td>
@@ -87,36 +88,36 @@
 				</tr>
 				<!-- 2015-01-08 吴海龙 新增皕节报表:科室路径执行情况J -->
 				<tr bgcolor="#FFFFFF" class="STYLE19"  >
-					<td height="24"><div align="center">3-1</div></td>
-					<td><div align="center"><a href="#" onClick="window.open('cpstatistics2.jsp?height=490&rpt=cpstatistics2','临床路径各病种住院比J','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >临床路径各病种住院比J</a></div></td>
-				</tr>
-				<tr bgcolor="#FFFFFF" class="STYLE19"  >
 					<td height="24"><div align="center">4</div></td>
-					<td><div align="center"><a href="#" onClick="window.open('statementsKS.jsp?height=490&rpt=dept_order_rate&hospital_id=<%=hospital_id%>','科室医嘱执行率','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室医嘱执行率</a></div></td>
+					<td><div align="center"><a href="#" onClick="window.open('cpstatistics2.jsp?height=490&rpt=cpstatistics2','临床路径各病种住院比','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >临床路径各病种住院比</a></div></td>
 				</tr>
 				<tr bgcolor="#FFFFFF" class="STYLE19"  >
 					<td height="24"><div align="center">5</div></td>
+					<td><div align="center"><a href="#" onClick="window.open('statementsKS.jsp?height=490&rpt=dept_order_rate&hospital_id=<%=hospital_id%>','科室医嘱执行率','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室医嘱执行率</a></div></td>
+				</tr>
+				<tr bgcolor="#FFFFFF" class="STYLE19"  >
+					<td height="24"><div align="center">6</div></td>
 					<td><div align="center"><a href="#" onClick="window.open('BZOrderRate.jsp?height=490&rpt=bingzhong_order_rate','病种医嘱执行率','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >病种医嘱执行率</a></div></td>
 				</tr>
                 <tr bgcolor="#FFFFFF" class="STYLE19"  >
-					<td height="24"><div align="center">6</div></td>
-					<td><div align="center"><a href="#" onClick="window.open('executeDept1.jsp?height=490&rpt=executeDept1&hospital_id=<%=hospital_id%>','科室路径执行情况','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室路径执行情况</a></div></td>
+					<td height="24"><div align="center">7</div></td>
+					<td><div align="center"><a href="#" onClick="window.open('executeDept1.jsp?height=490&rpt=executeDept1&hospital_id=<%=hospital_id%>','临床路径执行情况1','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室路径执行情况1</a></div></td>
 			    </tr>
 			    <!-- 2015-01-08 吴海龙 新增皕节报表:科室路径执行情况J -->
 			     <tr bgcolor="#FFFFFF" class="STYLE19"  >
-					<td height="24"><div align="center">6-1</div></td>
-					<td><div align="center"><a href="#" onClick="window.open('executeDept2.jsp?height=490&rpt=executeDept2&hospital_id=<%=hospital_id%>','科室路径执行情况J','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室路径执行情况J</a></div></td>
-			    </tr>
-			    <tr bgcolor="#FFFFFF" class="STYLE19"  >
-					<td height="24"><div align="center">7</div></td>
-			   	    <td><div align="center"><a href="#" onClick="window.open('cpAnalyze.jsp?height=490&rpt=CPAnalyze','路径执行情况分析','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >路径执行情况分析</a></div></td> 
-			    </tr>
-		        <tr bgcolor="#FFFFFF" class="STYLE19"  >
 					<td height="24"><div align="center">8</div></td>
-			   	    <td><div align="center"><a href="#" onClick="window.open('cpAnalyzeIndex.jsp?height=490&rpt=CPAnalyzeIndex','临床路径分析指标','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >临床路径分析指标</a></div></td> 
+					<td><div align="center"><a href="#" onClick="window.open('executeDept2.jsp?height=490&rpt=executeDept2&hospital_id=<%=hospital_id%>','临床路径执行情况2','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室路径执行情况2</a></div></td>
 			    </tr>
 			    <tr bgcolor="#FFFFFF" class="STYLE19"  >
 					<td height="24"><div align="center">9</div></td>
+			   	    <td><div align="center"><a href="#" onClick="window.open('cpAnalyze.jsp?height=490&rpt=CPAnalyze','路径执行情况分析','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >路径执行情况分析</a></div></td> 
+			    </tr>
+		        <tr bgcolor="#FFFFFF" class="STYLE19"  >
+					<td height="24"><div align="center">10</div></td>
+			   	    <td><div align="center"><a href="#" onClick="window.open('cpAnalyzeIndex.jsp?height=490&rpt=CPAnalyzeIndex','临床路径分析指标','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >临床路径分析指标</a></div></td> 
+			    </tr>
+			    <tr bgcolor="#FFFFFF" class="STYLE19"  >
+					<td height="24"><div align="center">11</div></td>
 			   	    <td><div align="center"><a href="#" onClick="window.open('CPDevelop.jsp?height=490&rpt=cp_develop','临床路径开展情况','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >临床路径开展情况</a></div></td> 
 			    </tr>
     	</table>

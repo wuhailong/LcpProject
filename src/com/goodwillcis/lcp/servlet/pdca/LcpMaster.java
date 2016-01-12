@@ -533,7 +533,7 @@ public class LcpMaster implements ICloneCp {
 				+ ","
 				+ _objLcpMaster.GetNewVersion()
 				+ ","
-				+ _objLcpMaster.getCP_STATUS()
+				+ 2
 				+ ",sysdate,sysdate,'"
 				+ _objLcpMaster.getCP_CREATE_ID()
 				+ "','"

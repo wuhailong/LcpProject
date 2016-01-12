@@ -2,12 +2,12 @@
 <report version="3.0">
 	<head>
 		<property name="type">0</property>
-		<name><![CDATA[cpstatistics]]></name>
+		<name><![CDATA[cpstatistics2]]></name>
 		<dataSets>
 			<dataSet name="ds" type="Self" >
 				<property name="dataSource"></property>
 				<property name="desc"><![CDATA[]]></property>
-				<property name="query"><![CDATA[com.goodwillcis.cp.bingzhong.CpStatistics]]></property>
+				<property name="query"><![CDATA[com.goodwillcis.cp.bingzhong.CpStatistics2]]></property>
 				<property name="beginRow">0</property>
 				<property name="endRow">0</property>
 				<queryParam name="start_time" />
@@ -101,12 +101,12 @@
 				</columns>
 				<cells>
 					<cell id="1,1" type="0" colspan="5" >
-						<property name="value"><![CDATA[临床路径各病种住院比J]]></property>
+						<property name="value"><![CDATA[临床路径各病种住院比]]></property>
 						<property name="font-size">16</property>
 						<property name="bold">0</property>
 					</cell>
 					<cell id="2,1" type="0" colspan="5" >
-						<property name="value"><![CDATA[="统计时间段为："+@start_time+"至"+@end_time]]></property>
+						<property name="value"><![CDATA[="统计时间段为：2015-01-01至2015-12-31"]]></property>
 						<property name="bold">0</property>
 						<property name="align">2</property>
 					</cell>
@@ -173,7 +173,7 @@
 						<border type="3">1:0,0,0:1</border>
 					</cell>
 					<cell id="6,5" type="0" >
-						<property name="value"><![CDATA[=ds.select(纳入人数)/ds.select(符合人数)]]></property>
+						<property name="value"><![CDATA[=C6{}/B6{}]]></property>
 						<property name="view-format">1|###0.00%;(###0.00%)</property>
 						<border type="1">1:0,0,0:1</border>
 						<border type="3">1:0,0,0:1</border>
@@ -185,25 +185,25 @@
 						<border type="3">1:0,0,0:1</border>
 					</cell>
 					<cell id="7,2" type="0" >
-						<property name="value"><![CDATA[=ds.sum(符合人数)]]></property>
+						<property name="value"><![CDATA[58050]]></property>
 						<property name="view-format">1|###0;-###0</property>
 						<border type="1">1:0,0,0:1</border>
 						<border type="3">1:0,0,0:1</border>
 					</cell>
 					<cell id="7,3" type="0" >
-						<property name="value"><![CDATA[=ds.sum(纳入人数)]]></property>
+						<property name="value"><![CDATA[14861]]></property>
 						<property name="view-format">1|###0;-###0</property>
 						<border type="1">1:0,0,0:1</border>
 						<border type="3">1:0,0,0:1</border>
 					</cell>
 					<cell id="7,4" type="0" >
-						<property name="value"><![CDATA[=ds.sum(完成人数)]]></property>
+						<property name="value"><![CDATA[11146]]></property>
 						<property name="view-format">1|###0;(###0)</property>
 						<border type="1">1:0,0,0:1</border>
 						<border type="3">1:0,0,0:1</border>
 					</cell>
 					<cell id="7,5" type="0" >
-						<property name="value"><![CDATA[=C7{}/B7{}]]></property>
+						<property name="value"><![CDATA[0.256]]></property>
 						<property name="view-format">1|###0.00%;(###0.00%)</property>
 						<border type="1">1:0,0,0:1</border>
 						<border type="3">1:0,0,0:1</border>

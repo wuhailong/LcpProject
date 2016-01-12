@@ -95,10 +95,22 @@ function sub(){
 	calendar.hide();
 	if(deptcodevalue!="" && parseInt(deptcodevalue)>0 && deptcodevalue != "3070000"){
 		//alert("科室登陆");
-		baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value+';deptcodevalue='+deptcodevalueks;
+		var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+	    if (userAgent.indexOf("Chrome") > -1){//chrome浏览器
+	    	baobiao.src='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value+';deptcodevalue='+deptcodevalueks;
+	 	}else{//其他浏览器
+	 		baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value+';deptcodevalue='+deptcodevalueks;
+	 	}
+		//baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value+';deptcodevalue='+deptcodevalueks;
 	}else{
+		var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+	    if (userAgent.indexOf("Chrome") > -1){//chrome浏览器
+	    	baobiao.src='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value+';deptcodevalue='+deptcodevalueyw;
+	 	}else{//其他浏览器
+	 		baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value+';deptcodevalue='+deptcodevalueyw;
+	 	}
 		//alert("医务科登陆");
-		baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value+';deptcodevalue='+deptcodevalueyw;
+		//baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value+';deptcodevalue='+deptcodevalueyw;
 	}
 	
 }

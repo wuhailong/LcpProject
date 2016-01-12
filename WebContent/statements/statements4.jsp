@@ -105,7 +105,13 @@ function subs(){
        alert("开始日期不能晚于结束日期!");
        return;
     }
-	  baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=<%=canshu%>start_time='+ start_time.value+ ';end_time='+ end_time.value+ ';deptcodevalue=' + deptcodevalueyw;
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    if (userAgent.indexOf("Chrome") > -1){//chrome浏览器
+    	baobiao.src='../ReportEmitter?rpt=<%=rpt%>.brt&params=<%=canshu%>start_time='+ start_time.value+ ';end_time='+ end_time.value+ ';deptcodevalue=' + deptcodevalueyw;
+ 	}else{//其他浏览器
+ 		baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=<%=canshu%>start_time='+ start_time.value+ ';end_time='+ end_time.value+ ';deptcodevalue=' + deptcodevalueyw;
+ 	}
+	  //baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=<%=canshu%>start_time='+ start_time.value+ ';end_time='+ end_time.value+ ';deptcodevalue=' + deptcodevalueyw;
   }
 	</script>
 	<div>

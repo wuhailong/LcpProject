@@ -52,10 +52,10 @@
 <body>
 
 	<center style="font-size: 15px">
-		起始时间： <input type="text" name="text1" style="width: 100px" id="text1" readonly="true" value="<%=begintime%>"
+		起始时间： <input type="text" name="text1" style="width: 100px" id="text1" readonly="true" value="2015-01-01"
 									onfocus="WdatePicker({isShowWeek:true})"> &nbsp;&nbsp;
 			结束时间： <input type="text" name="text2" style="width: 100px" id="text2" readonly="true"
-									value="<%=riqi%>" onfocus="WdatePicker({isShowWeek:true})"> 
+									value="2015-12-31" onfocus="WdatePicker({isShowWeek:true})"> 
 <%
  	if ("executeDept1".equals(rpt)) {
  %>按
@@ -101,7 +101,13 @@ function subs(){
        alert("开始日期不能晚于结束日期!");
        return;
     }
-	  baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=<%=canshu%>start_time='+ start_time.value+ ';end_time='+ end_time.value+ ';deptcodevalue=' + deptcodevalueyw;
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    if (userAgent.indexOf("Chrome") > -1){//chrome浏览器
+    	baobiao.src='../ReportEmitter?rpt=<%=rpt%>.brt&params=<%=canshu%>start_time='+ start_time.value+ ';end_time='+ end_time.value+ ';deptcodevalue=' + deptcodevalueyw;
+ 	}else{//其他浏览器
+ 		baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=<%=canshu%>start_time='+ start_time.value+ ';end_time='+ end_time.value+ ';deptcodevalue=' + deptcodevalueyw;
+ 	}
+	  
 }
 	</script>
 	<div>

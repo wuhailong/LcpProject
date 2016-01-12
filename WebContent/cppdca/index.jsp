@@ -117,7 +117,7 @@
                         <li id="inoutcmpare"><a href="#about">院外与路径对比</a></li>
                         <li id="versioncmpare"><a href="#services">版本间对比</a></li>
                         <li id="checkorders"><a href="#showcase">查看路径医嘱</a></li>
-                         <li  id="checkoutorders"><a href="#sectionoutorders">非路径医嘱增加</a></li>
+                         <li style="display: none" id="checkoutorders"><a href="#sectionoutorders">非路径医嘱增加</a></li>
                         <li id="nodevariation"><a href="#contact-us">变异节点图</a></li>
                        
                         <li><a href="#pricing">新版本路径</a></li>                        
@@ -232,7 +232,8 @@
 							<!-- plan name & value -->
 							<div class="price-title">
 								<h3 id="vcpname">启用版本</h3>
-								<p>ID<strong class="value" id="vcpid">-</strong> <span id="vcpstatus"> </p>								
+								<div id ="vcpid" style="display: none"></div>
+								<p>ID<strong class="value" id="vcpcode">-</strong> <span id="vcpstatus"> </p>								
 							</div>
 							<!-- /plan name & value -->
 							
@@ -260,7 +261,8 @@
 							<!-- plan name & value -->
 							<div class="price-title">
 								<h3 id="vcpname1">其他版本1</h3>
-								<p>ID <strong class="value" id="vcpid1">-</strong> <span id="vcpstatus1"></span></p>
+								<div id ="vcpid1" style="display: none"></div>
+								<p>ID <strong class="value" id="vcpcode1">-</strong> <span id="vcpstatus1"></span></p>
 							</div>
 							<!-- /plan name & value -->
 							
@@ -288,7 +290,8 @@
 							<!-- plan name & value -->
 							<div class="price-title">
 								<h3 id="vcpname2">其他版本2</h3>
-								<p>ID <strong class="value" id="vcpid2">-</strong>  <span id="vcpstatus2"></span></p>
+								<div id ="vcpid2" style="display: none"></div>
+								<p>ID <strong class="value" id="vcpcode2">-</strong>  <span id="vcpstatus2"></span></p>
 							</div>
 							<!-- /plan name & value -->
 							
@@ -316,7 +319,8 @@
 							<!-- plan name & value -->
 							<div class="price-title">
 								<h3 id="vcpname3">其他版本3</h3>
-								<p>ID <strong class="value" id="vcpid3">-</strong>  <span id="vcpstatus3"></span></p>
+								<div id ="vcpid3" style="display: none"></div>
+								<p>ID <strong class="value" id="vcpcode3">-</strong>  <span id="vcpstatus3"></span></p>
 							</div>
 							<!-- /plan name & value -->
 							
@@ -416,7 +420,7 @@
 		</section>   <!-- End section -->
 		
 		
-			<section id="sectionoutorders">
+			<section style="display: none" id="sectionoutorders">
 			<div class="container">
 				<div class="row wow fadeInDown" data-wow-duration="500ms">
 					<div class="col-lg-12">
@@ -453,7 +457,7 @@
 			</div>
 			
 		</section>   <!-- End section -->
-			<section id="team-skills" class="parallax-section">
+			<section style="display: none" id="team-skills" class="parallax-section">
 			<div class="container">
 				<div class="row wow fadeInDown" data-wow-duration="500ms">
 				

@@ -18,12 +18,14 @@ String begintime=riqi.substring(0,8)+"01";
 </head>
 <body>
    <center style="font-size: 15px;font-family: sans-serif;font-stretch: narrower;">
- 	起始时间：<input  style="color:black" type="text" name="text1" style="width:100px" id="text1"  value="<%=begintime %>"   readonly="true"  onfocus="WdatePicker({isShowWeek:true})"/>&nbsp;&nbsp;&nbsp;
- 	结束时间：<input  style="color:black" type="text" name="text2" style="width:100px"  id="text2" value="<%=riqi %>" readonly="true" onfocus="WdatePicker({isShowWeek:true})"/>&nbsp;&nbsp;&nbsp;&nbsp;
+ 	起始时间：<input  style="color:black" type="text" name="text1" style="width:100px" id="text1"  value="2015-01-01"   readonly="true"  onfocus="WdatePicker({isShowWeek:true})"/>&nbsp;&nbsp;&nbsp;
+ 	结束时间：<input  style="color:black" type="text" name="text2" style="width:100px"  id="text2" value="2015-12-31" readonly="true" onfocus="WdatePicker({isShowWeek:true})"/>&nbsp;&nbsp;&nbsp;&nbsp;
  	<input type="button" value="查看" onclick="sub()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    </center>
 
 <script language="javascript">
+var date1 =null;
+var date2 =null;
 function sub(){
 	var start_time = document.getElementById('text1');
 	var end_time = document.getElementById('text2');
@@ -35,7 +37,21 @@ function sub(){
        alert("开始日期不能晚于结束日期!");
        return;
     }
-	baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value;
+    //alert('date1'+date1+'--start_time'+dt1+'||date2'+date2+'--end_time'+dt2);
+	if(date1-dt1==0){
+		if(date2-dt2==0){
+		return;
+		}
+	}
+	date1 = dt1;
+	date2=dt2;
+	var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    if (userAgent.indexOf("Chrome") > -1){//chrome浏览器
+    	baobiao.src='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value;
+ 	}else{//其他浏览器
+ 		baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value;
+ 	}
+	//baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value;
 	
 }
 </script>

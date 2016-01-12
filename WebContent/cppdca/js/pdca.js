@@ -46,28 +46,32 @@ $('#versioncmpare').click(function() {
 		success : function(data) {
 			//启用版本参数
 			$('#vcpname').text(data['cp_cp'][0]['cp_name']);
-			$('#vcpid').text(data['cp_cp'][0]['cp_code']);
+			$('#vcpid').text(data['cp_cp'][0]['cp_id']);
+			$('#vcpcode').text(data['cp_cp'][0]['cp_code']);
 			$('#vzlhzl').text(data['cp_cp'][0]['cp_hzl']);
 			$('#vzyf').text(data['cp_cp'][0]['cp_pjzyf']);
 			$('#vzyr').text(data['cp_cp'][0]['cp_pjzyr']);
 			$('#vcpstatus').text(data['cp_cp'][0]['cp_status']);
 			//最近版本1
 			$('#vcpname1').text(data['cp_cp'][1]['cp_name']);
-			$('#vcpid1').text(data['cp_cp'][1]['cp_code']);
+			$('#vcpid1').text(data['cp_cp'][1]['cp_id']);
+			$('#vcpcode1').text(data['cp_cp'][1]['cp_code']);
 			$('#vzlhzl1').text(data['cp_cp'][1]['cp_hzl']);
 			$('#vzyf1').text(data['cp_cp'][1]['cp_pjzyf']);
 			$('#vzyr1').text(data['cp_cp'][1]['cp_pjzyr']);
 			$('#vcpstatus1').text(data['cp_cp'][1]['cp_status']);
 			//最近版本2
 			$('#vcpname2').text(data['cp_cp'][2]['cp_name']);
-			$('#vcpid2').text(data['cp_cp'][2]['cp_code']);
+			$('#vcpid2').text(data['cp_cp'][2]['cp_id']);
+			$('#vcpcode2').text(data['cp_cp'][2]['cp_code']);
 			$('#vzlhzl2').text(data['cp_cp'][2]['cp_hzl']);
 			$('#vzyf2').text(data['cp_cp'][2]['cp_pjzyf']);
 			$('#vzyr2').text(data['cp_cp'][2]['cp_pjzyr']);
 			$('#vcpstatus2').text(data['cp_cp'][2]['cp_status']);
 			//最近版本3
 			$('#vcpname3').text(data['cp_cp'][3]['cp_name']);
-			$('#vcpid3').text(data['cp_cp'][3]['cp_code']);
+			$('#vcpid3').text(data['cp_cp'][3]['cp_id']);
+			$('#vcpcode3').text(data['cp_cp'][3]['cp_code']);
 			$('#vzlhzl3').text(data['cp_cp'][3]['cp_hzl']);
 			$('#vzyf3').text(data['cp_cp'][3]['cp_pjzyf']);
 			$('#vzyr3').text(data['cp_cp'][3]['cp_pjzyr']);
@@ -383,7 +387,7 @@ $('#thinorders').click(function() {
 			var cp_code =data["cp_orders"][0]["cp_code"];
 			$('#newcpcode').text(cp_code);
 			for ( var i = 0; i < data["cp_orders"].length; i++) {
-				if (nodeflag != data["cp_orders"][i]["NODE_NAME"]) {
+				if (nodeflag != data["cp_orders"][i]["node_name"]) {
 					parientid++;
 					tr = "<tr data-tt-id='"+ parientid+ "' style='font-size:12px,font-family:Helvetica, Arial, sans-serif' >" +
 							"<td><span class='folder'>"+ data["cp_orders"][i]["node_name"]+ "</span></td>" +
@@ -401,11 +405,10 @@ $('#thinorders').click(function() {
 						"<td>"+ data["cp_orders"][i]["SPECIFICATION"]+ "</td>" +
 						"<td>"+ data["cp_orders"][i]["FREQUENCY"]+ "</td>" +
 						"<td>"+ data["cp_orders"][i]["MEASURE"]+ "</td>" +
-						"<td>"+ data["cp_orders"][i]["ORDER_KIND"]+ "</td>" +
-						
+						"<td>"+ data["cp_orders"][i]["ORDER_KIND"]+ "</td>" +						
 						"</tr>";
 				$('#clearedorders').append(tr);				
-				nodeflag = data["cp_orders"][i]["NODE_NAME"];							
+				nodeflag = data["cp_orders"][i]["node_name"];							
 			}
 			$("#bornedcp").treetable({
 				expandable : true

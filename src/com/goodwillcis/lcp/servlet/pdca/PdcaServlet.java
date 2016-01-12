@@ -108,6 +108,11 @@ public class PdcaServlet extends HttpServlet {
 			JoinOutOrders outorders =new  JoinOutOrders();
 			_strJson = outorders.GetOutOrderSeqsByCPId(_strCurrentCpId);
 			break;
+		case 'C':
+			//_strCurrentCpId = request.getParameter("cp_id");
+			ReportManage rm =new  ReportManage();
+			_strJson = rm.GetEnableReport();
+			break;
 		default:
 		}
 		ReturnJson(_strJson);

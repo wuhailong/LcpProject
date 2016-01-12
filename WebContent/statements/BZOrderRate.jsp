@@ -35,7 +35,13 @@ function sub(){
        alert("开始日期不能晚于结束日期!");
        return;
     }
-	baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value;
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    if (userAgent.indexOf("Chrome") > -1){//chrome浏览器
+    	baobiao.src='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value;
+ 	}else{//其他浏览器
+ 		baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value;
+ 	}
+	//baobiao.location.href='../ReportEmitter?rpt=<%=rpt%>.brt&params=start_time='+start_time.value+';end_time='+end_time.value;
 	
 }
 </script>
