@@ -67,6 +67,12 @@ $(function() {
 		width : 350,
 		modal : true
 	});
+	$("#order_itemc").dialog({
+		autoOpen : false,
+		height : 450,
+		width : 350,
+		modal : true
+	});
 	$("#dialogOrderPoint").dialog({
 		autoOpen : false,
 		height : 350,
@@ -228,6 +234,29 @@ $(function() {
 		$("#specificationb").attr("value", formatted[2]);
 		$("#charge_amountb").attr("value",formatted[3]);
 		$("#orderPYb2").attr("value", formatted[4]);
+	});
+	
+	// 按拼音搜索
+	$("#orderPYc").autocomplete("../servlet/auto?ops=cd&op=codePY", opertion);
+	$("#orderPYc").result(function(event, data, formatted) {
+		formatted = formatted.split("--");
+		$("#orderCodec").attr("value", formatted[0]);
+		$("#orderNamec").attr("value", formatted[1]);
+		$("#specificationc").attr("value", formatted[2]);
+		$("#charge_amountc").attr("value",formatted[3]);
+		$("#orderPYc").attr("value", formatted[4]);
+
+	});
+	// 完全模糊查询
+	$("#orderPYc2").autocomplete("../servlet/auto?ops=cd&op=codePY&option=dim",
+			opertion);
+	$("#orderPYc2").result(function(event, data, formatted) {
+		formatted = formatted.split("--");
+		$("#orderCodec").attr("value", formatted[0]);
+		$("#orderNamec").attr("value", formatted[1]);
+		$("#specificationc").attr("value", formatted[2]);
+		$("#charge_amountc").attr("value",formatted[3]);
+		$("#orderPYc2").attr("value", formatted[4]);
 	});
 
 	/** ***********************************所有自动填表内容初始化*************************************************** */
@@ -924,6 +953,449 @@ function addOrderItem() {
 						}
 					});
 	$("#order_item").dialog("open");
+}
+
+/**
+ * 吴海龙
+ * 2016-06-16
+ * 替换医嘱Item信息
+ */
+function replaceOrderItem() {
+	$("#edit1").css("display", "");
+	$("#edit2").css("display", "none");
+	// var s=""+cp_id+"_"+cp_node_id_quanju+"_"+cpOrderID2+"_"+currentStep+"";
+	$("#doctorMarkc").keydown(function(event) {
+		var keycode = event.which;
+		var markLength = $("#doctorMarkc").val().length;
+		if (markLength >= 50) {
+			var num = $("#doctorMarkc").val().substr(0, 50);
+			$("#doctorMarkc").val(num);
+			if (keycode != 8) {
+				alert("超出字符限制，多余部分将被截去！");
+				return false;
+			}
+		}
+	});
+	// var s=""+cp_id+"_"+cp_node_id_quanju+"_"+cpOrderID2+"_"+currentStep+"";
+	var check$ = $("input[name='chekcbox_orderitem']");
+	var num = 0;
+	var leng = check$.length;
+
+	for ( var i = 0; i < check$.length; i++) {
+		if (check$[i].checked) {
+			num++;
+			if (num == 1) {
+				var s = 0;
+				var _nCount =0;
+				for ( var jj = 0; jj < leng; jj++) {
+					if (check$[jj].checked) {
+						s = check$[jj].id;
+					}
+				}
+				// alert("cx。。。。。。。"+s);
+				$.ajax({
+					type : "POST",
+					url : "../servlet/managecp",
+					data : "s=" + s + "&op=edit",
+					success : function(msg) {
+						msg = eval('(' + msg + ')');
+						// 第一级菜单是否为检验检查
+						var sfcheck = msg["sfcheck"];
+						// alert(sfcheck);
+						// var MEASURE_UNITSBM = msg["MEASURE_UNITSBM"];//领量单位编码
+						// var DOSAGE_UNITSBM = msg["DOSAGE_UNITSBM"];//计量单位编码
+						// var WAYBM = msg["WAYBM"];//途径编码
+						var MEASURE_UNITS = msg["MEASURE_UNITS"];// 领量单位中文
+
+						if (msg["MEASURE"] == "") {
+							MEASURE_UNITS = "";
+						}
+						if (msg["DOSAGE"] == "") {
+							msg["DOSAGE_UNITS"] = "";
+						}
+						// alert(MEASURE_UNITS);
+						$("#orderCode2c").val(msg["MEASURE_UNITSBM"]);
+						$("#orderCode1c").val(msg["DOSAGE_UNITSBM"]);
+						$("#ordertjbhic").val(msg["WAYBM"]);
+						var FREQUENCY = msg["FREQUENCY"];
+						$("#orderCodec").val(msg["ORDER_NO"]);// 编码
+						$("#oldOrderCodec").val(msg["ORDER_NO"]);// 编码
+						$("#orderNamec").val(msg["CP_NODE_ORDER_TEXT"]);// 具体医嘱
+						$("#ordertjc").val(msg["WAY"]);// 途径
+						$("#doctorMarkc").val(msg["MARK"]);// 医生嘱托
+						if (msg["ORDER_KIND"] == "长期") {// 类型
+							$("#orderSelectc").val($("#orderSelectc2").val());
+						} else if (msg["ORDER_KIND"] == "临时") {
+							$("#orderSelectc").val($("#orderSelectc1").val());
+							FREQUENCY = "ONCE";
+						} else if (msg["ORDER_KIND"] == "出院") {
+							$("#orderSelectc").val($("#orderSelectc3").val());
+						}else if (msg["ORDER_KIND"] == "长期+临时") {
+							$("#orderSelectc").val($("#orderSelectc4").val());
+							FREQUENCY = "ONCE";
+						}
+						if (sfcheck == "C" || sfcheck == "D") {
+							$("#orderPCc").val("ONCE");
+							$("#dosagec").val("1");
+						} else {
+							$("#orderPCc").val(FREQUENCY);// 频次
+							$("#dosagec").val(msg["DOSAGE"]);// 使用剂量
+						}
+
+						$("#orderjlc").val(msg["MEASURE"]);// 领量
+						$("#orderjldwc").val(MEASURE_UNITS);// 领量单位
+
+						$("#dosage_unitsc").val(msg["DOSAGE_UNITS"]);// 使用剂量单位
+						$("#specificationc").val(msg["SPECIFICATION"]);// 规格
+						$("charge_amountc").val(msg["CHARGE_AMOUNT"]);// 单价
+//						alert("NEED_ITEM=="+msg["NEED_ITEM"]);
+//						alert("DEFAULT_ITEM=="+msg["DEFAULT_ITEM"]);
+						var checked = document.getElementsByName("orderItemc");// 是否必做
+						if (msg["NEED_ITEM"] == "0") {
+							checked[0].checked = true;
+						} else if (msg["NEED_ITEM"] == "1") {
+							checked[1].checked = true;
+						}
+					
+						var checked1 = document.getElementsByName("orderItemDefaultc");// 是否默认
+						if (msg["DEFAULT_ITEM"] == "0") {
+							checked1[0].checked = true;
+						} else if (msg["DEFAULT_ITEM"] == "1") {
+							checked1[1].checked = true;
+						}
+						
+						/*
+						 * if (checked[0].value == "0") { window.alert("可选项"); }
+						 * else if (checked[0].value == "1") {
+						 * window.alert("必做项"); }
+						 */
+						// $("#radiobuttonb").attr("value",'0');
+					}
+				});
+				$("#order_itemc").dialog("open");
+
+				$("#order_itemc")
+						.dialog(
+								{
+									open : function() {
+										$("#orderCodec")[0].focus();
+										$("#orderCodec").val("");
+										// $("#orderCodeb")[0].focus();
+										$("#orderNamec").val("");
+										$("#orderPYc").val("");
+										$("#orderWBc").val("");
+										$("#ordertjc").val("");
+										$("#orderjlc").val("");// 领量
+										$("#orderjldwc").val("");// 领量单位
+										$("#dosagec").val("");// 使用剂量
+										$("#dosage_unitsc").val("");// 使用剂量单位
+										$("#specificationc").val("");
+										$("#charge_amountc").val("");//单价
+										$("#orderCode2c").val("");
+										$("#orderCode1c").val("");
+										$("#ordertjbhic").val("");
+										$("#doctorMarkc").val("");
+
+									},
+
+									buttons : {
+										"替换" : function() {
+											// seq=$(line).children().eq(1).html();
+											// alert(currentStep);
+
+											// var s
+											// =""+cp_id+"_"+cp_node_id_quanju+"_"+cpOrderID2+"_"+currentStep+"";
+											var check$ = $("input[name='chekcbox_orderitem']");
+											var leng = check$.length;
+											var s1 = 0;
+											for ( var jj = 0; jj < leng; jj++) {
+												if (check$[jj].checked) {
+													s1 = check$[jj].id;
+												}
+											}
+
+											var arry = s1.split("_");
+											var need = $(
+													":radio[name='orderItem'][checked]")
+													.val();
+											var itemDefault = $(":radio[name='orderItemDefaultb'][checked]").val();//是否默认
+											var code = $("#orderCodec").val();
+											var oldcode = $("#oldOrderCodec").val();
+											//alert(oldcode);
+											var type = $("#orderSelectc").val();
+											// var
+											// belong=$("#orderBelongSelectb").val();
+											var name = $("#orderNamec").val();
+											var specification = $(
+													"#specificationc").val();
+											var charge_amount = $(
+											"#charge_amountc").val();//单价
+											var orderjl = $("#orderjlc").val();
+											var orderCode2 = $("#orderjldwc")
+													.val();// 领量单位
+											var dosage = $("#dosageb").val();
+											var orderCode1 = $("#dosage_unitsb")
+													.val();// 一次计量单位
+											// var
+											// orderTypeSelect=$("#orderTypeSelectb").val();
+											var orderPC = $("#orderPCc").val();
+											var ordertj = $("#ordertjc").val();
+											var orderpcdw = $("#orderpcdwc")
+													.val();
+											var mark = $("#doctorMarkc").val();
+											var reg = new RegExp("[0-9]+");
+											// 校验
+											if (code == "") {
+												alert("医嘱编码为空!");
+												$("#order_itemc").dialog(
+														"close");
+												return;
+											}
+											// 领量校验
+											if (orderjl == "") {
+												if (orderCode2 == "") {
+
+												}
+												/*
+												 * else if(orderCode2!=""){
+												 * alert("请先输入领量!"); return; }
+												 */
+											} else if (orderjl != "") {
+												if (reg.test(orderjl)) {
+													if (orderCode2 == "") {
+														/*
+														 * alert("请输入领量单位!");
+														 * return;
+														 */
+													} else if (orderCode2 != "") {
+													}
+												} else {
+													alert("请输入正确格式领量!");
+													return;
+												}
+											}
+											// 一次计量校验
+											if (dosage == "") {
+												if (orderCode1 == "") {
+
+												}
+												/*
+												 * else if(orderCode1!=""){
+												 * alert("请先输入一次计量!"); return; }
+												 */
+											} else if (dosage != "") {
+												if (reg.test(dosage)) {
+													if (orderCode1 == "") {
+														alert("请输入一次使用剂量单位!");
+														return;
+													} else if (orderCode1 != "") {
+
+													}
+												} else {
+													alert("请输入正确格式一次计量!");
+													return;
+												}
+											}
+											// 途径校验
+
+											if (!reg.test(ordertj)
+													&& ordertj != "") {
+												alert("请输入正确途径!");
+												return;
+											}
+											$
+													.ajax({
+														url : "../servlet/managecp",
+														type : 'POST',
+														data : {
+															op : "replace_lcp_node_order_item",
+															cp_id : cpID,
+															//oldOrderCodec:oldOrderCodec,
+															cp_node_id : cpNodeID,
+															cp_node_order_id : cpOrderID2,
+															radiobutton : need,// 必做项
+															isDefault: itemDefault,//默认项
+															orderCode : code,// 医嘱编码
+															oldOrderCode : oldcode,// 医嘱编码
+															orderSelect : type,// 长期-临时-出院
+															/*
+															 * orderName:name,//encodeURI(name,"utf-8"),//医嘱名称
+															 * specification:specification,//规格
+															 */
+															orderName : encodeURIComponent(
+																	name,
+																	"utf-8"),// encodeURI(name,"utf-8"),//医嘱名称
+															specification : encodeURIComponent(
+																	specification,
+																	"utf-8"),// 规格
+															orderjl : orderjl,// 医嘱计量
+															orderCode2 : encodeURIComponent(
+																	orderCode2,
+																	"utf-8"),// 计量单位
+															dosage : dosage,// 一次使用剂量
+															orderCode1 : encodeURIComponent(
+																	orderCode1,
+																	"utf-8"),// 一次使用剂量单位
+															orderPC : orderPC,// 频次
+															mark : encodeURIComponent(
+																	mark,
+																	"utf-8"),
+															ordertj : encodeURIComponent(
+																	ordertj,
+																	"utf-8"),// 途径
+															// yanneiOrderType:yanneiOrderType,//院内医嘱类别
+															orderpcdw : encodeURI(
+																	orderpcdw,
+																	"utf-8"),
+															s1 : s1,// 行编号
+															mark : encodeURI(
+																	mark,
+																	"utf-8")
+														},
+														dataType : "json",
+														complete : show_result,
+														success : function(
+																data,
+																textStatus,
+																XMLHttpRequest) {
+															data = eval(data);
+															// var FREQUENCY =
+															// data.FREQUENCY;
+															// var tujing =
+															// data.WAY;
+
+															if (data.result === "OK") {
+																alert('替换成功,共替换'+data.mycount+'条医嘱!');
+																$("#order_itemc").dialog("close");
+																//$("#order_itemc").dialog
+																showorderitem(cpID,cpNodeID,cpOrderID2,this);
+																if (data.ORDER_KIND == "0") {
+																	orderkind = "临时";
+																} else if (data.ORDER_KIND == "1") {
+																	orderkind = "长期";
+
+																} else if (data.ORDER_KIND == "2") {
+																	orderkind = "出院";
+																}else if (data.ORDER_KIND == "3") {
+																	orderkind = "长期+临时";
+																}
+																if (data.NEED_ITEM == "0") {
+																	marked = "";
+																} else if (data.NEED_ITEM == "1") {
+																	marked = "√";
+																}
+																if (data.DEFAULT_ITEM == "0") {
+																	marked1 = "";
+																} else if (data.DEFAULT_ITEM == "1") {
+																	marked1 = "√";
+																}
+
+																var toHtml = "<td  align='center' ><input type='checkbox' name='chekcbox_orderitem' id='"
+																		+ arry[0]
+																		+ "_"
+																		+ arry[1]
+																		+ "_"
+																		+ arry[2]
+																		+ "_"
+																		+ arry[3]
+																		+ "'></td>"
+																		+ "<td  align='center' >"
+																		+ arry[3]
+																		+ "</td>"
+																		+ // 序号
+																		"<td  align='center' >"
+																		+ data.ORDER_ITEM_SET_ID
+																		+ "</td>"
+																		+ // 组
+																		"<td  align='center' >"
+																		+ orderkind
+																		+ "</td>"
+																		+ // 类别
+																		// 长期-临时-出院
+																		"<td align='center'>"+data.ORDER_TYPE_NAME+"</td>"+//
+																		"<td  align='left' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+																		+ data.CP_NODE_ORDER_TEXT
+																		+ "</td>"
+																		+ // 医嘱内弄
+																		"<td  align='center' >"
+																		+ data.SPECIFICATION
+																		+ "</td>"
+																		+ // 规格
+																		"<td  align='center' >"
+																		+ marked
+																		+ "</td>"
+																		+ // 必做
+																		"<td  align='center' >"
+																		+ marked1
+																		+ "</td>"
+																		+ // 默认  
+																		"<td  align='center' >"
+																		+ data.MEASURE
+																		+ "</td>"
+																		+ // 计量
+																		"<td  align='center' >"
+																		+ data.FREQUENCY
+																		+ "</td>"
+																		+ // 频次
+																		"<td  align='center' >"
+																		+ data.WAY
+																		+ "</td>";// 途径
+																$(
+																		"#order_itemb")
+																		.dialog(
+																				"close");
+																$(
+																		"tr [id='"
+																				+ arry[0]
+																				+ "_"
+																				+ arry[1]
+																				+ "_"
+																				+ arry[2]
+																				+ "_"
+																				+ arry[3]
+																				+ "']")
+																		.html(
+																				toHtml);
+																// $("#order_item_table").html(toHtml);
+																$("#orderCodec").val("");
+																// $("#orderCodeb")[0].focus();
+																$("#orderNamec").val("");
+																$("#orderPYc").val("");
+																$("#orderWBc").val("");
+																$("#orderPCc").val("");
+																$("#ordertjc").val("");
+																$("#orderjlc").val("");// 领量
+																$("#orderjldwc").val("");// 领量单位
+																$("#dosagec").val("");// 使用剂量
+																$("#dosage_unitsc").val("");// 使用剂量单位
+																$("#specificationc").val("");
+																$("#charge_amountc").val("");//单价
+																$("#orderCode2c").val("");
+																$("#orderCode1c").val("");
+																$("#ordertjbhid").val("");
+																$("#radiobuttonc").attr("value",'0');
+																
+															} else {
+																alert("编辑失败");
+															}
+
+														}
+													});
+										},
+										"取消" : function() {
+											$(this).dialog("close");
+										}
+									}
+
+								});
+			} else {
+				$("#order_itemc").dialog("close");
+				alert("请勾中一个复选框编辑");
+				return;
+			}
+		}
+	}
+
 }
 
 /**
@@ -1780,6 +2252,7 @@ function editOrderItem() {
 			num++;
 			if (num == 1) {
 				var s = 0;
+				var _nCount =0;
 				for ( var jj = 0; jj < leng; jj++) {
 					if (check$[jj].checked) {
 						s = check$[jj].id;

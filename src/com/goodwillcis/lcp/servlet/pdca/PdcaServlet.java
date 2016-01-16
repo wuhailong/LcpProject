@@ -216,7 +216,7 @@ public class PdcaServlet extends HttpServlet {
 				+ "           from LCP_NODE_ORDER_ITEM\r\n"
 				+ "          where cp_id = '" + _strCpIdTwo
 				+ "') order by cp_node_id\r\n" + "";
-		ResultSet _rsData = this.ExcuteBySQL(_strSQL);
+		ResultSet _rsData = CommonFunction.ExecuteQuery(_strSQL);
 		try {
 			String _strCp = "";
 			if (_strFlag.equals("one")) {

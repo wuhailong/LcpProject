@@ -218,6 +218,7 @@
      <th width="100%" height="18" align="center" valign="top" scope="row"><input name="input3" type="button"  value="添加" onclick="addOrderItem();showbefore()" />
       <input name="input3" type="button" value="编辑" onclick="editOrderItem();" />
      <input name="input3" type="button" value="删除" onclick="delOrder();" />
+     <input name="input0" type="button" value="整体替换" onclick="replaceOrderItem();" /><!-- 2016-01-16 吴海龙 替换医嘱功能 -->
       <input name="input5" type="button" value="存组" onclick="addOrderGroup();" />
       <input name="input5" type="button" value="撤组" onclick="cancelGroup();" />
       <input name="input5" type="button" value="复制" onclick="copySan();" />

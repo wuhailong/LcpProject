@@ -111,6 +111,8 @@ public class ManageCpServlet extends HttpServlet {
 		else if ("del_lcp_node_nurse_item".equals(op)) del_lcp_node_nurse_item(request, response);
 
 		else if ("del_lcp_node_order_item".equals(op)) del_lcp_node_order_item(request, response);
+		
+		else if ("replace_lcp_node_order_item".equals(op)) replace_lcp_node_order_item(request, response);
 
 		else if ("show_order_item".equals(op)) show_order_item(request, response);
 
@@ -174,6 +176,171 @@ public class ManageCpServlet extends HttpServlet {
 	}
 	
 
+
+	/**
+	 * 替换路径医嘱
+	 * 2016-01-16
+	 * 吴海龙
+	 * @throws IOException 
+	 */
+	private void replace_lcp_node_order_item(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+
+		try {
+			String s1 = request.getParameter("s1");
+			String arr[] = s1.split("_");
+			
+			String orderCode = request.getParameter("orderCode");// 医嘱编码
+			String oldOrderCode = request.getParameter("oldOrderCode");// 医嘱编码
+			if (orderCode == null) {
+				orderCode = "null";
+			}
+			String orderName = URLDecoder.decode(
+					request.getParameter("orderName"), "UTF-8");// 医嘱内容
+					
+			if (orderName == null) {
+				orderName = "null";
+			}
+			String specification =URLDecoder.decode(
+					request.getParameter("specification"), "UTF-8");// 规格
+			
+			if (specification == null) {
+				specification = "null";
+			}
+			String orderPY = request.getParameter("orderPY");// 拼音码搜索
+			if (orderPY == null) {
+				orderPY = "null";
+			}
+			String orderSelect = request.getParameter("orderSelect");// 医嘱类别
+			if (orderSelect == null) {
+				orderSelect = "null";
+			}
+			String radiobutton = request.getParameter("radiobutton");// 是否必做
+			if (radiobutton == null) {
+				radiobutton = "null";
+			}
+			String isDefault = request.getParameter("isDefault");// 是否默认
+			if (isDefault == null) {
+				isDefault = "null";
+			}
+			String orderjl = request.getParameter("orderjl");// 领量
+			if (orderjl == null) {
+				orderjl = "null";
+			}		
+			String orderCode2 =  URLDecoder.decode(
+					request.getParameter("orderCode2"), "UTF-8");
+			if (orderCode2 == null) {
+				orderCode2 = "null";
+			}
+			String dosage = request.getParameter("dosage");// 一次使用剂量
+			if (dosage == null) {
+				dosage = "null";
+			}
+			String orderCode1 =   URLDecoder.decode(
+					request.getParameter("orderCode1"), "UTF-8");// 一次使用剂量单位
+			if (orderCode1 == null) {
+				orderCode1 = "null";
+			}
+			String orderPC = request.getParameter("orderPC").trim();// 频次
+			if (orderPC == null) {
+				orderPC = "null";
+			}
+			String ordertj = request.getParameter("ordertj");// 途径
+			if (ordertj== null) {
+				ordertj = "null";
+			}
+			String mark =URLDecoder.decode(
+					request.getParameter("mark"), "UTF-8");// 医生嘱托
+			if (mark== null) {
+				mark = "null";
+			}
+			String MEASURE_UNITS="";//领量单位编码
+			DatabaseClass db = LcpUtil.getDatabaseClass();
+			String drugIdSql = "select drug_id from dcp_dict_order_item where order_item_code='"+orderCode+"'";
+			String drug_id = db.FunGetDataSetBySQL(drugIdSql).FunGetDataAsStringByColName(0, "DRUG_ID");
+			if(orderCode2 != ""){
+				MEASURE_UNITS=db.FunGetDataSetBySQL("select CODE from lcp_local_order_dosageunits where UNIT='"+orderCode2+"'").FunGetDataAsStringById(0, 0);
+			}
+	
+			String DOSAGE_UNITS="";//计量单位编码
+			if(orderCode1 != ""){
+				DOSAGE_UNITS=db.FunGetDataSetBySQL("select CODE from lcp_local_order_dosageunits where UNIT='"+orderCode1+"'").FunGetDataAsStringById(0, 0);
+			}
+			String SUPPLYNAME="";//途径编码
+			if(ordertj != ""){
+				SUPPLYNAME=db.FunGetDataSetBySQL("select supply_name from lcp_local_order_way where supply_code='"+ordertj+"'").FunGetDataAsStringById(0, 0);
+			}
+			//--------->查询医嘱类型 
+			String sqlorderTypeName ="select t.ORDER_TYPE_NAME from dcp_dict_order_item t where t.order_item_code='"+orderCode+"' and trim(t.order_item_name)='"+orderName+"'";
+			String ORDER_TYPE_NAME = db.FunGetDataSetBySQL(sqlorderTypeName).FunGetDataAsStringById(0, 0);
+			//如果领量或一次计量为空，那么单位也显示为空。
+	        if(orderjl==null || "".equals(orderjl)){
+	        	orderCode2="";
+	        }
+	        if(dosage==null || "".equals(dosage)){
+	        	orderCode1="";
+	        }
+			String jiliang=orderjl+orderCode2;
+			String updateSQL = "update lcp_node_order_item set ORDER_NO='"+ orderCode + "'" + ",";// 医嘱编码
+			updateSQL += "CP_NODE_ORDER_TEXT='" + orderName + "'" + ",";// 医嘱具体内容
+			updateSQL += "SPECIFICATION='" + specification + "'" + ",";// 规格
+			updateSQL += "ORDER_KIND='" + orderSelect + "'" + ",";// 医嘱类别
+			updateSQL += "NEED_ITEM=" + radiobutton + "" + ",";// 是否必做
+			updateSQL += "DEFAULT_ITEM=" + isDefault + "" + ",";// 是否默认
+			updateSQL += "DRUG_ID='" + drug_id + "'" + ",";// 药品编码
+			updateSQL += "MEASURE='" + orderjl + "'" + ",";// 领量
+			updateSQL += "MEASURE_UNITS='" + MEASURE_UNITS + "'" + ",";// 领量单位
+			updateSQL += "DOSAGE='" + dosage + "'" + ",";// 一次使用量
+			updateSQL += "DOSAGE_UNITS='" + DOSAGE_UNITS + "'" + ",";// 一次使用量单位
+			updateSQL += "FREQUENCY='" + orderPC + "'" + ",";// 频次
+			updateSQL += "EFFECT_FLAG='" + 0 + "'" + ",";// 频次
+			updateSQL += "WAY='" + ordertj + "'"+ ",";// 途径
+			updateSQL += "MARK='" + mark + "'" ;// 医生嘱托
+			//updateSQL += "WAY='" + ordertj + "'  ";// 途径
+			updateSQL += "where CP_ID=" + arr[0]+" and ORDER_NO='"+oldOrderCode+"'";
+			DataSet dataSet = new DataSet();
+			
+			int isUpdateSuc = dataSet.funRunSql(updateSQL);
+			if (isUpdateSuc > 0) {
+		          String groupId="";
+		            String sqlcz="select ORDER_ITEM_SET_ID from lcp_node_order_item where CP_ID=" + arr[0] + " and CP_NODE_ID=" + arr[1]+ 
+		            			 " and CP_NODE_ORDER_ID=" + arr[2]+ " and CP_NODE_ORDER_ITEM_ID=" + arr[3] + " ";
+		    		dataSet.funSetDataSetBySql(sqlcz);
+		    		int row=dataSet.getRowNum();
+                    for(int i=0;i<row;i++){
+                         groupId=dataSet.funGetFieldByCol(i, "ORDER_ITEM_SET_ID");//分组ID
+                    }
+        			if("0".equals(groupId)){
+        				groupId="无";
+        			}
+
+				response.getWriter().println(
+						"{\"result\":\"OK\",\"ORDER_NO\":\"" + orderCode
+								+ "\",\"CP_NODE_ORDER_TEXT\":\""
+								+ orderName
+								+ "\",\"ORDER_ITEM_SET_ID\":\"" + groupId
+								+ "\",\"ORDER_TYPE_NAME\":\"" + ORDER_TYPE_NAME
+								+ "\",\"SPECIFICATION\":\"" + specification
+								+ "\",\"ORDER_KIND\":\"" + orderSelect
+								+ "\",\"NEED_ITEM\":\"" + radiobutton
+								+ "\",\"DEFAULT_ITEM\":\"" + isDefault
+								+ "\",\"MEASURE\":\"" + jiliang
+								+ "\",\"DOSAGE\":\"" + dosage
+								+ "\",\"DOSAGE_UNITS\":\"" + orderCode1
+								+ "\",\"FREQUENCY\":\"" + orderPC
+								+ "\",\"WAY\":\"" + SUPPLYNAME
+								//+ "\",\"WAY\":\"" + ordertj + "\"}");
+								+ "\",\"MARK\":\"" + mark + "\",\"mycount\":"+isUpdateSuc+"}");
+			} else {
+				response.getWriter().println("{\"result\":\"ERROR\"}");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.getWriter().println("{\"result\":\"fail\"}");
+		}
+	}
 
 	/**
 	 * 路径护理工作编辑

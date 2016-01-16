@@ -999,6 +999,125 @@ body {
       </tr>
   </table>
 </div>
+
+<div id="order_itemc" style="background: #FFF;font-size:14px;">
+    <table width="311" height="385" border="0" align="center" cellspacing="0">
+    
+      <tr id="order1">
+        <td height="35" align="right">拼音码搜索：</td>
+        <td><input type="text" name="orderInput" id="orderPYc" /><input type="button" value="刷新" onclick="showCheck();"></td>
+      </tr>
+       <tr id="order2">
+        <td height="35" align="right">拼音码搜索：</td>
+        <td><input type="text" name="orderInput" id="orderPY2c" /></td>
+      </tr>
+
+      <tr>
+        <td width="104" height="35" align="right">医嘱编码：</td>
+        <td width="203">
+        <input  type="hidden" id="oldOrderCodec" size="5" maxlength="5" />  
+        <input type="text" name="txt11" id="orderCodec" title="通过搜索获得,不可更改" readonly="readonly"/>*</td>
+      </tr>
+
+      <tr>
+        <td height="35" align="right">医嘱内容： </td>
+        <td><label><input type="text" name="txt6" id="orderNamec" title="通过搜索获得,不可更改"  readonly="readonly" />
+      </label> 
+          *      
+      </tr>
+       <tr>
+      <td height="35" align="right">规　格： </td>
+        <td><label><input type="text" name="txt6" id="specificationc" title="通过搜索获得,不可更改"  readonly="readonly" />
+      </label> 
+          *      
+      </tr>
+      
+	  <tr>
+		<td height="35" align="right">单价：</td>
+		<td><label><input type="text" name="txt6"
+			id="charge_amountc" title="通过搜索获得,不可更改" readonly="readonly" /> </label> *
+				
+	  </tr>
+	  
+      <tr>
+        <td height="35" align="right">医嘱类别：</td>
+        <td>
+        <select name="orderSelect" size="1" id="orderSelectc" onclick="show()" onload="showbefore()">
+          <option value="0" id="orderSelect1">临时医嘱</option>
+          <option value="1" id="orderSelect2">长期医嘱</option>
+          <option value="2" id="orderSelect3">出院医嘱</option>
+          <option value="3" id="orderSelect4">长期+临时</option>
+        </select>
+        *</td>
+      </tr>
+     <!-- 
+       <tr>
+        <td height="35" align="right"> 院内医嘱类别：</td>
+        <td><select name="yanneiOrderSelect" size="1" id="yanneiOrderSelectc" >
+          
+        </select>
+        *</td>
+      </tr>
+ -->
+      <tr>
+        <td height="35" align="right">是否必做：</td>
+        <td >&emsp;<input name="orderItem" type="radio" id="radiobuttonc" value="0" >
+          可选项&emsp;
+         <input type="radio" name="orderItem" value="1" id="radiobuttonc" checked>
+         必做项</td>
+         
+      </tr>
+      <tr>
+        <td height="35" align="right">是否默认：</td>
+        <td >&emsp;<input name="orderItemDefault" type="radio" id="radiobuttonc1" value="0" >
+                  否&emsp;&emsp;&emsp;
+                   <input type="radio" name="orderItemDefault" value="1" id="radiobuttonc1">
+              是</td>
+        
+      </tr>
+      <tr>
+        <td height="35" align="right">领 &nbsp; 量：</td>
+        <td align="left" >
+        <input name="orderPY" type="text" id="orderjlc" size="5" maxlength="5" /> 
+        单位：
+        <input name="orderPY" type="text" id="orderjldwc" size="5" maxlength="5" />
+        <input name="orderPY" type="hidden" id="orderCode2c" size="5" maxlength="5" />      
+        </td>
+      </tr>
+      <tr>
+        <td height="35" align="right">一次使用剂量：</td>
+        <td align="left" >
+        <input name="orderPY" type="text" id="dosagec" size="5" maxlength="5" /> 
+        单位：
+        <input name="orderPY" type="text" id="dosage_unitsc" size="5" maxlength="5" />
+        <input name="orderPY" type="hidden" id="orderCodec1" size="5" maxlength="5" />      
+        </td>
+      </tr>
+      <tr>
+        <td height="35" align="right">频 &nbsp; 次：</td>
+        <td align="left" ><input name="orderPY4" type="text" id="orderPCc" />
+       </td>
+      </tr>
+      <tr>
+        <td height="35" align="right">途 &nbsp; 径：</td>
+        <td  ><input name="orderPY3" type="text" id="ordertjc" /></td>
+      </tr>
+
+      <!-- 
+      <tr>
+        <td height="35" align="right">五笔码搜素：</td>
+        <td><input type="text" name="orderInput" id="orderWBc" /></td>
+      </tr>
+       -->
+       <tr>
+        <td height="35" align="right">医生嘱托(50字符)：</td>
+        <td>
+        	<textarea rows="5" cols="30" id="doctorMarkc"></textarea>
+        </td>
+      </tr>
+  </table>
+</div>
+
 <div style=" height:180px;overflow-y:auto;overflow-x:hidden" id="dialogNodeSan">
        <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" >
        
