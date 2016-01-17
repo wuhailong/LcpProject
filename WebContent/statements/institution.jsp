@@ -103,11 +103,16 @@
 					<td height="24"><div align="center">7</div></td>
 					<td><div align="center"><a href="#" onClick="window.open('executeDept1.jsp?height=490&rpt=executeDept1&hospital_id=<%=hospital_id%>','临床路径执行情况1','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室路径执行情况1</a></div></td>
 			    </tr>
-			    <!-- 2015-01-08 吴海龙 新增皕节报表:科室路径执行情况J -->
+			   <!-- 2016-01-17 吴海龙 新增皕节报表:主治医生路径指标 -->
+			     <tr bgcolor="#FFFFFF" class="STYLE19"  >
+					<td height="24"><div align="center">8</div></td>
+					<td><div align="center"><a href="#" onClick="window.open('executeAttendingDoctor.jsp?height=490&rpt=executeAttendingDoctor&hospital_id=<%=hospital_id%>','主治医生临床路径执行情况','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >主治医生临床路径执行情况</a></div></td>
+			    </tr>
+			    <!-- 2015-01-08 吴海龙 新增皕节报表:科室路径执行情况J
 			     <tr bgcolor="#FFFFFF" class="STYLE19"  >
 					<td height="24"><div align="center">8</div></td>
 					<td><div align="center"><a href="#" onClick="window.open('executeDept2.jsp?height=490&rpt=executeDept2&hospital_id=<%=hospital_id%>','临床路径执行情况2','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >科室路径执行情况2</a></div></td>
-			    </tr>
+			    </tr> -->
 			    <tr bgcolor="#FFFFFF" class="STYLE19"  >
 					<td height="24"><div align="center">9</div></td>
 			   	    <td><div align="center"><a href="#" onClick="window.open('cpAnalyze.jsp?height=490&rpt=CPAnalyze','路径执行情况分析','width = 910,height = 560,top=0, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');" >路径执行情况分析</a></div></td> 
